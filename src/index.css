@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-void-0: #08070f;
+  --color-void-1: #0e0c1b;
+  --color-panel: #161327;
+  --color-panel-2: #1c1830;
+  --color-line: rgba(155, 127, 224, 0.18);
+  --color-line-strong: rgba(155, 127, 224, 0.4);
+  --color-text: #eeeaf9;
+  --color-text-dim: #a49dc4;
+  --color-text-faint: #6d6690;
+  --color-arcane: #9b7fe0;
+  --color-arcane-bright: #c3aef7;
+
+  --color-relic: #5b9bd5;
+  --color-pristine: #e8cf8a;
+  --color-pages: #fcd00b;
+  --color-ifm: #f2549b;
+
+  --color-ok: #59d8a4;
+  --color-warn: #f0a95c;
+
+  --font-cinzel: 'Cinzel', serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(1100px 600px at 12% -10%, rgba(155, 127, 224, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(91, 155, 213, 0.1), transparent 55%),
+    linear-gradient(180deg, var(--color-void-0), var(--color-void-1) 60%);
+  color: var(--color-text);
+  font-family: var(--font-inter);
+  min-height: 100vh;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  opacity: 0.5;
+}
+
+input[type='number']:focus,
+select:focus {
+  outline: none;
+}
