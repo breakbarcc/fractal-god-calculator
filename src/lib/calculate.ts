@@ -10,21 +10,22 @@ interface Needs {
   journals: number
 }
 
-interface Remaining {
-  remRelic: number
+interface BaseRemaining {
   remPristine: number
   remPages: number
-  remIFM: number
   totalRelicBase: number
   totalPristineBase: number
   totalIFMBase: number
   totalPagesBase: number
+  baseRelicNeed: number
+  ifmDeficit: number
 }
 
 interface DailyRates {
   relicPerDay: number
   pristinePerDay: number
   pagesPerDay: number
+  ifmPerDay: number
 }
 
 function doneResult(): CalculatorResults {
@@ -41,6 +42,7 @@ function doneResult(): CalculatorResults {
     relicPerDay: 0,
     pristinePerDay: 0,
     pagesPerDay: 0,
+    ifmPerDay: 0,
     daysNeeded: 0,
     convertedPristine: 0,
     daysRelicOnly: 0,
@@ -67,24 +69,24 @@ function calculateNeeds(currentLevel: number, prereqDone: boolean): Needs {
   return needs
 }
 
-function calculateRemaining(needs: Needs, inputs: CalculatorInputs): Remaining {
+function calculateBaseRemaining(needs: Needs, inputs: CalculatorInputs): BaseRemaining {
   const totalPagesBase = needs.journals * PAGES_PER_JOURNAL
   const curPages = inputs.curPages + inputs.curJournals * PAGES_PER_JOURNAL
 
-  const remIFM = Math.max(0, needs.ifm - inputs.curIFM)
-  const remRelic = Math.max(0, needs.relic + remIFM * IFM_CRAFT_RELIC - inputs.curRelic)
+  const ifmDeficit = Math.max(0, needs.ifm - inputs.curIFM)
+  const baseRelicNeed = Math.max(0, needs.relic - inputs.curRelic)
   const remPristine = Math.max(0, needs.pristine - inputs.curPristine)
   const remPages = Math.max(0, totalPagesBase - curPages)
 
   return {
-    remRelic,
     remPristine,
     remPages,
-    remIFM,
     totalRelicBase: needs.relic,
     totalPristineBase: needs.pristine,
     totalIFMBase: needs.ifm,
     totalPagesBase,
+    baseRelicNeed,
+    ifmDeficit,
   }
 }
 
@@ -92,11 +94,13 @@ function calculateDailyRates(inputs: CalculatorInputs): DailyRates {
   let relicPerDay = 0
   let pristinePerDay = 0
   let pagesPerDay = 0
+  let ifmPerDay = 0
   for (const activity of inputs.activities) {
     if (activity.on) {
       relicPerDay += activity.relic
       pristinePerDay += activity.pristine
       pagesPerDay += activity.pages
+      ifmPerDay += activity.integrated_fractal
     }
   }
   relicPerDay += inputs.extraRuns * inputs.extraScale
@@ -105,12 +109,13 @@ function calculateDailyRates(inputs: CalculatorInputs): DailyRates {
   relicPerDay *= playFraction
   pristinePerDay *= playFraction
   pagesPerDay *= playFraction
+  ifmPerDay *= playFraction
 
   if (inputs.daysPerWeek > 0) {
     pagesPerDay += inputs.weeklyCache / DAYS_IN_WEEK
   }
 
-  return { relicPerDay, pristinePerDay, pagesPerDay }
+  return { relicPerDay, pristinePerDay, pagesPerDay, ifmPerDay }
 }
 
 /** Days until `remaining` is covered by `perDay` income; 0 if already covered, Infinity if income is 0. */
@@ -120,23 +125,40 @@ function daysToReach(remaining: number, perDay: number): number {
 }
 
 /**
+ * Integrated Fractal Matrix can always be crafted from Relic (15 Relic each), so it never
+ * independently blocks progress — unlike Pristine or Pages. This returns the Relic need for
+ * the *days-until-done* timeline: if natural IFM loot income covers the deficit before base
+ * Relic alone would be ready, no crafting is needed; otherwise the shortfall must be crafted,
+ * adding its cost back in. The displayed static Relic/IFM totals are unaffected by this.
+ */
+function calculateRelicNeedForDays(base: BaseRemaining, relicPerDay: number, ifmPerDay: number): number {
+  if (base.ifmDeficit <= 0) return base.baseRelicNeed
+
+  const daysIfmOnly = daysToReach(base.ifmDeficit, ifmPerDay)
+  const daysRelicBaseOnly = daysToReach(base.baseRelicNeed, relicPerDay)
+  if (daysIfmOnly <= daysRelicBaseOnly) return base.baseRelicNeed
+
+  return base.baseRelicNeed + base.ifmDeficit * IFM_CRAFT_RELIC
+}
+
+/**
  * Relic timeline when Pristine surplus (income after `remPristine` is covered) is
  * auto-converted into Relic via BUY-2046 PFR, plus how much Pristine that consumes.
  */
 function calculateRelicDaysWithConversion(
-  remRelic: number,
+  relicNeed: number,
   remPristine: number,
   relicPerDay: number,
   pristinePerDay: number,
   daysRelicOnly: number,
   daysPristine: number,
 ): { daysRelic: number; convertedPristine: number } {
-  if (remRelic <= 0 || !Number.isFinite(daysPristine)) {
+  if (relicNeed <= 0 || !Number.isFinite(daysPristine)) {
     return { daysRelic: daysRelicOnly, convertedPristine: 0 }
   }
 
   const relicAtPristineTarget = relicPerDay * daysPristine
-  const relicRemainingAfter = remRelic - relicAtPristineTarget
+  const relicRemainingAfter = relicNeed - relicAtPristineTarget
   if (relicRemainingAfter <= 0) {
     return { daysRelic: daysRelicOnly, convertedPristine: 0 }
   }
@@ -178,37 +200,48 @@ export function calculate(inputs: CalculatorInputs): CalculatorResults {
   }
 
   const needs = calculateNeeds(currentLevel, prereqDone)
-  const { remRelic, remPristine, remPages, remIFM, totalRelicBase, totalPristineBase, totalIFMBase, totalPagesBase } =
-    calculateRemaining(needs, inputs)
-  const { relicPerDay, pristinePerDay, pagesPerDay } = calculateDailyRates(inputs)
+  const base = calculateBaseRemaining(needs, inputs)
+  const { relicPerDay, pristinePerDay, pagesPerDay, ifmPerDay } = calculateDailyRates(inputs)
 
-  const daysRelicOnly = daysToReach(remRelic, relicPerDay)
-  const daysPristine = daysToReach(remPristine, pristinePerDay)
-  const daysPages = daysToReach(remPages, pagesPerDay)
+  const remIFM = base.ifmDeficit
+  const remRelic = base.baseRelicNeed + remIFM * IFM_CRAFT_RELIC
+  const relicNeedForDays = calculateRelicNeedForDays(base, relicPerDay, ifmPerDay)
+
+  const daysRelicOnly = daysToReach(relicNeedForDays, relicPerDay)
+  const daysPristine = daysToReach(base.remPristine, pristinePerDay)
+  const daysPages = daysToReach(base.remPages, pagesPerDay)
 
   const { daysRelic, convertedPristine } = inputs.autoConvert
-    ? calculateRelicDaysWithConversion(remRelic, remPristine, relicPerDay, pristinePerDay, daysRelicOnly, daysPristine)
+    ? calculateRelicDaysWithConversion(
+        relicNeedForDays,
+        base.remPristine,
+        relicPerDay,
+        pristinePerDay,
+        daysRelicOnly,
+        daysPristine,
+      )
     : { daysRelic: daysRelicOnly, convertedPristine: 0 }
 
   const daysNeeded = Math.max(daysRelic, daysPristine, daysPages)
   const bottleneck = determineBottleneck(daysRelic, daysPristine, daysPages)
 
-  const totalRelicEquiv = totalRelicBase + totalIFMBase * IFM_CRAFT_RELIC
+  const totalRelicEquiv = base.totalRelicBase + base.totalIFMBase * IFM_CRAFT_RELIC
   const overallPct = totalRelicEquiv > 0 ? Math.max(0, Math.min(100, (1 - remRelic / totalRelicEquiv) * 100)) : 100
 
   return {
     done: false,
     remRelic,
-    remPristine,
-    remPages,
+    remPristine: base.remPristine,
+    remPages: base.remPages,
     remIFM,
-    totalRelicBase,
-    totalPristineBase,
-    totalPagesBase,
-    totalIFMBase,
+    totalRelicBase: base.totalRelicBase,
+    totalPristineBase: base.totalPristineBase,
+    totalPagesBase: base.totalPagesBase,
+    totalIFMBase: base.totalIFMBase,
     relicPerDay,
     pristinePerDay,
     pagesPerDay,
+    ifmPerDay,
     daysNeeded,
     convertedPristine,
     daysRelicOnly,

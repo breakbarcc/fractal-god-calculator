@@ -2,7 +2,7 @@ import type { Activity } from '../types'
 
 function YieldStat({ icon, alt, value }: Readonly<{ icon: string; alt: string; value: number }>) {
   return (
-    <div className="flex items-center gap-1.5 rounded-md border border-line bg-panel-2 px-2 py-1.5">
+    <div className="flex items-center gap-1.5 rounded-md bg-panel-2 px-2 py-1.5">
       <img src={icon} alt={alt} title={alt} className="h-4 w-4 flex-none" />
       <span className="font-mono text-xs text-text">{value}</span>
     </div>
@@ -30,14 +30,15 @@ export function ActivityToggle({
         </div>
         <div className="flex-1 text-[13.5px] font-medium">{activity.label}</div>
       </div>
-      <div
-        className={`grid grid-cols-3 gap-2 overflow-hidden transition-all duration-[250ms] ${
-          activity.on ? 'mt-2.5 max-h-20 opacity-100' : 'mt-0 max-h-0 opacity-0'
-        }`}
-      >
+      <div className="mt-2.5 grid grid-cols-4 gap-2">
         <YieldStat icon="/icons/fractal-relic.png" alt="Fractal Relic" value={activity.relic} />
         <YieldStat icon="/icons/pristine-fractal-relic.png" alt="Pristine Fractal Relic" value={activity.pristine} />
         <YieldStat icon="/icons/fractal-research-page.png" alt="Fractal Research Page" value={activity.pages} />
+        <YieldStat
+          icon="/icons/integrated-fractal-matrix.png"
+          alt="Integrated Fractal Matrix"
+          value={activity.integrated_fractal}
+        />
       </div>
     </div>
   )

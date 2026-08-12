@@ -14,6 +14,7 @@ export interface Activity {
   relic: number
   pristine: number
   pages: number
+  integrated_fractal: number
 }
 
 export interface SelectOption {
@@ -34,6 +35,7 @@ export interface CalculatorResults {
   relicPerDay: number
   pristinePerDay: number
   pagesPerDay: number
+  ifmPerDay: number
   daysNeeded: number
   convertedPristine: number
   daysRelicOnly: number

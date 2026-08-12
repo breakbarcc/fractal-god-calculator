@@ -105,7 +105,7 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
           name="Integrated Matrix"
           dotClass="bg-ifm"
           value={fmt(r.remIFM)}
-          sub="wird aus Relic gecraftet"
+          sub={`${fmt(r.ifmPerDay)} / Tag`}
           fillClass="bg-ifm"
           fillPct={pct(r.remIFM, r.totalIFMBase)}
         />
