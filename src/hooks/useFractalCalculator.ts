@@ -27,10 +27,6 @@ export function useFractalCalculator() {
     setActivities((prev) => prev.map((a) => (a.id === id ? { ...a, on: !a.on } : a)))
   }
 
-  function updateActivityField(id: string, field: 'relic' | 'pristine' | 'pages', value: number) {
-    setActivities((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: value } : a)))
-  }
-
   function applyFetchResult(fetched: Gw2FetchResult) {
     if (fetched.curRelic != null) setCurRelic(fetched.curRelic)
     if (fetched.curPristine != null) setCurPristine(fetched.curPristine)
@@ -92,7 +88,6 @@ export function useFractalCalculator() {
     setApiKey,
     activities,
     toggleActivity,
-    updateActivityField,
     extraRuns,
     setExtraRuns,
     extraScale,

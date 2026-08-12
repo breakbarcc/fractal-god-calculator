@@ -1,19 +1,10 @@
 import type { Activity } from '../types'
 
-function YieldField({ label, value, onChange }: Readonly<{
-  label: string;
-  value: number;
-  onChange: (value: number) => void
-}>) {
+function YieldStat({ icon, alt, value }: Readonly<{ icon: string; alt: string; value: number }>) {
   return (
-    <div className="flex flex-col gap-[3px]">
-      <span className="font-mono text-[9.5px] tracking-[0.05em] text-text-faint uppercase">{label}</span>
-      <input
-        type="number"
-        value={value}
-        onChange={(e) => onChange(Number.parseFloat(e.target.value) || 0)}
-        className="w-full rounded-md border border-line bg-panel-2 px-2 py-1.5 text-right font-mono text-xs text-text focus:border-arcane focus:outline-none"
-      />
+    <div className="flex items-center gap-1.5 rounded-md border border-line bg-panel-2 px-2 py-1.5">
+      <img src={icon} alt={alt} title={alt} className="h-4 w-4 flex-none" />
+      <span className="font-mono text-xs text-text">{value}</span>
     </div>
   )
 }
@@ -21,11 +12,9 @@ function YieldField({ label, value, onChange }: Readonly<{
 export function ActivityToggle({
   activity,
   onToggle,
-  onFieldChange,
 }: Readonly<{
   activity: Activity
   onToggle: () => void
-  onFieldChange: (field: 'relic' | 'pristine' | 'pages', value: number) => void
 }>) {
   return (
     <div
@@ -46,9 +35,9 @@ export function ActivityToggle({
           activity.on ? 'mt-2.5 max-h-20 opacity-100' : 'mt-0 max-h-0 opacity-0'
         }`}
       >
-        <YieldField label="Relic/Tag" value={activity.relic} onChange={(v) => onFieldChange('relic', v)} />
-        <YieldField label="Pristine/Tag" value={activity.pristine} onChange={(v) => onFieldChange('pristine', v)} />
-        <YieldField label="Pages/Tag" value={activity.pages} onChange={(v) => onFieldChange('pages', v)} />
+        <YieldStat icon="/icons/fractal-relic.png" alt="Fractal Relic" value={activity.relic} />
+        <YieldStat icon="/icons/pristine-fractal-relic.png" alt="Pristine Fractal Relic" value={activity.pristine} />
+        <YieldStat icon="/icons/fractal-research-page.png" alt="Fractal Research Page" value={activity.pages} />
       </div>
     </div>
   )

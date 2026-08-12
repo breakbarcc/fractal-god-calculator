@@ -31,12 +31,12 @@ export const ATTUNEMENT_LEVEL_OPTIONS: SelectOption[] = [
 export const DEFAULT_ACTIVITIES: Activity[] = [
   { id: 'tierDailies', label: 'Tägliche Fraktale (T1 - T4)', on: true, relic: 165, pristine: 12, pages: 0 },
   { id: 'recommended', label: 'Empfohlene Fraktale (T1 - T3)', on: true, relic: 57, pristine: 3, pages: 3 },
-  { id: 'cmKinfall', label: 'CM: Kinfall', on: false, relic: 119, pristine: 2, pages: 1 },
-  { id: 'cmNightmare', label: 'CM: Nightmare', on: false, relic: 79, pristine: 2, pages: 1 },
-  { id: 'cmShattered', label: 'CM: Shattered Observatory', on: false, relic: 79, pristine: 2, pages: 1 },
-  { id: 'cmSunqua', label: 'CM: Sunqua Peak', on: false, relic: 139, pristine: 2, pages: 1 },
-  { id: 'cmSilentSurf', label: 'CM: Silent Surf', on: false, relic: 119, pristine: 2, pages: 1 },
-  { id: 'cmLonelyTower', label: 'CM: Lonely Tower', on: false, relic: 139, pristine: 2, pages: 1 },
+  { id: 'cmKinfall', label: 'CM: Kinfall', on: true, relic: 100, pristine: 2, pages: 1 },
+  { id: 'cmNightmare', label: 'CM: Nightmare', on: true, relic: 140, pristine: 2, pages: 1 },
+  { id: 'cmShattered', label: 'CM: Shattered Observatory', on: false, relic: 140, pristine: 2, pages: 1 },
+  { id: 'cmSunqua', label: 'CM: Sunqua Peak', on: false, relic: 120, pristine: 2, pages: 1 },
+  { id: 'cmSilentSurf', label: 'CM: Silent Surf', on: false, relic: 100, pristine: 2, pages: 1 },
+  { id: 'cmLonelyTower', label: 'CM: Lonely Tower', on: false, relic: 100, pristine: 2, pages: 1 },
 ]
 
 export const SCALE_OPTIONS: SelectOption[] = [

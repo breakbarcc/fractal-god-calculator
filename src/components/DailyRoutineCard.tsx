@@ -8,17 +8,12 @@ export function DailyRoutineCard({ calc }: Readonly<{ calc: FractalCalculator }>
     <div className={cardClass}>
       <h2 className="mb-1 flex items-center gap-2 font-cinzel text-base text-text">⚔️ Tägliche Routine</h2>
       <p className="mb-4.5 text-[12.5px] leading-[1.5] text-text-faint">
-        Wähl aus, was du täglich läufst. Die Werte pro Aktivität sind Richtwerte aus dem Wiki — passe sie gern an deine
-        eigenen Drops an.
+        Wähl aus, was du täglich läufst. Die Werte pro Aktivität stammen aus den offiziellen Belohnungs-Angaben des
+        GW2-Wikis.
       </p>
 
       {calc.activities.map((activity) => (
-        <ActivityToggle
-          key={activity.id}
-          activity={activity}
-          onToggle={() => calc.toggleActivity(activity.id)}
-          onFieldChange={(field, value) => calc.updateActivityField(activity.id, field, value)}
-        />
+        <ActivityToggle key={activity.id} activity={activity} onToggle={() => calc.toggleActivity(activity.id)} />
       ))}
 
       <div className="my-4 h-px bg-line" />
