@@ -1,4 +1,4 @@
-import { ATTUNEMENT_TITLES, CURRENCY_NAMES, GW2_API, ITEM_IDS } from '../data/constants'
+import { ATTUNEMENT_TITLE_IDS, CURRENCY_NAMES, GW2_API, ITEM_IDS } from '../data/constants'
 
 export type LogLevel = 'ok' | 'warn' | undefined
 
@@ -30,11 +30,6 @@ interface WalletEntry {
 interface ProgressionEntry {
   id: string
   value: number
-}
-
-interface Title {
-  id: number
-  name: string
 }
 
 function sumItemInSlots(slots: unknown, itemId: number): number {
@@ -139,15 +134,10 @@ export async function fetchGw2AccountData(
   }
 
   try {
-    const allTitles = await apiGet<Title[]>('/titles?ids=all')
-    const idByName: Record<string, number> = {}
-    allTitles.forEach((t) => {
-      if (ATTUNEMENT_TITLES.includes(t.name)) idByName[t.name] = t.id
-    })
     const owned = await apiGet<number[]>('/account/titles', apiKey)
     let level = 0
-    ATTUNEMENT_TITLES.forEach((name, i) => {
-      if (idByName[name] != null && owned.includes(idByName[name])) level = i + 1
+    ATTUNEMENT_TITLE_IDS.forEach((id, i) => {
+      if (owned.includes(id)) level = i + 1
     })
     result.attLevel = level
     onLog('✓ Mist-Attunement-Stufe erkannt: ' + level + ' von 4', 'ok')

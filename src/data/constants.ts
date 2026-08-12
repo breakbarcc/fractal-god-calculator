@@ -15,6 +15,11 @@ export const PREREQ = { relic: 5750, ifm: 35 }
 
 export const ATTUNEMENT_TITLES = ['Fractal Savant', 'Fractal Prodigy', 'Fractal Champion', 'Fractal God']
 
+// Title IDs from /v2/titles, in the same order as ATTUNEMENT_TITLES (index i = level i+1).
+// Fixed and locale-independent — unlike title names, which the GW2 API localizes
+// based on the request's Accept-Language.
+export const ATTUNEMENT_TITLE_IDS = [299, 297, 296, 298]
+
 export const ATTUNEMENT_LEVEL_OPTIONS: SelectOption[] = [
   { value: 0, label: 'Stufe 0 — noch nichts gekauft' },
   { value: 1, label: 'Stufe 1 — Fractal Savant' },
