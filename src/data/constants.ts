@@ -74,7 +74,8 @@ export const ITEM_IDS = {
   integratedMatrix: 79230,
 }
 
-export const CURRENCY_NAMES = {
-  relic: 'Fractal Relic',
-  pristine: 'Pristine Fractal Relic',
+
+export const CURRENCY_IDS = {
+  relic: 7,
+  pristine: 24,
 }
