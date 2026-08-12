@@ -14,7 +14,7 @@ function pct(remaining: number, total: number): number {
   return total > 0 ? Math.min(100, (1 - remaining / total) * 100) : 100
 }
 
-export function ResultsPanel({ calc }: { calc: FractalCalculator }) {
+export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
   const r = calc.results
 
   return (
@@ -36,15 +36,19 @@ export function ResultsPanel({ calc }: { calc: FractalCalculator }) {
         </select>
       </div>
       <div className="mt-2.5 mb-1.5 min-h-4 text-center font-mono text-xs text-pristine">
-        {!r.done && calc.autoConvert && r.convertedPristine > 0.5 && (() => {
-          const saved = Math.ceil(r.daysRelicOnly) - Math.ceil(r.daysRelic)
-          return (
-            <>
-              ↻ {fmt(r.convertedPristine)} überschüssige Pristine Relic werden in {fmt(r.convertedPristine * PRISTINE_TO_RELIC)} Fractal
-              Relic getauscht{saved > 0 ? ` — spart ${fmt(saved)} Tag${saved === 1 ? '' : 'e'}` : ''}.
-            </>
-          )
-        })()}
+        {!r.done &&
+          calc.autoConvert &&
+          r.convertedPristine > 0.5 &&
+          (() => {
+            const saved = Math.ceil(r.daysRelicOnly) - Math.ceil(r.daysRelic)
+            return (
+              <>
+                ↻ {fmt(r.convertedPristine)} überschüssige Pristine Relic werden in{' '}
+                {fmt(r.convertedPristine * PRISTINE_TO_RELIC)} Fractal Relic getauscht
+                {saved > 0 ? ` — spart ${fmt(saved)} Tag${saved === 1 ? '' : 'e'}` : ''}.
+              </>
+            )
+          })()}
       </div>
 
       <div className="mb-7 text-center">
@@ -57,15 +61,15 @@ export function ResultsPanel({ calc }: { calc: FractalCalculator }) {
         ) : (
           <>
             <div className="bg-[linear-gradient(135deg,var(--color-arcane-bright),var(--color-relic))] bg-clip-text font-mono text-[clamp(40px,7vw,64px)] leading-none font-bold text-transparent">
-              {isFinite(r.daysNeeded) ? fmt(Math.ceil(r.daysNeeded)) : '∞'}
+              {Number.isFinite(r.daysNeeded) ? fmt(Math.ceil(r.daysNeeded)) : '∞'}
             </div>
             <div className="mt-1.5 text-[13px] text-text-dim">Tage bis zum Titel</div>
             <div className="mt-2.5 font-mono text-[13.5px] text-text">
-              {isFinite(r.daysNeeded)
+              {Number.isFinite(r.daysNeeded)
                 ? `Voraussichtlich fertig am ${formatTargetDate(r.daysNeeded)}`
                 : 'Mit der aktuellen Routine wird mind. eine Ressource nie erreicht.'}
             </div>
-            {isFinite(r.daysNeeded) && r.daysNeeded > 0 && r.bottleneck && (
+            {Number.isFinite(r.daysNeeded) && r.daysNeeded > 0 && r.bottleneck && (
               <div className="mt-1.5 text-[12.5px] text-warn">Flaschenhals: {BOTTLENECK_LABELS[r.bottleneck]}</div>
             )}
           </>

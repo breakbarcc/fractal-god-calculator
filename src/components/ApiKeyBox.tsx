@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { fetchGw2AccountData } from '../lib/gw2Api'
+import { useEffect, useState } from 'react'
 import type { Gw2FetchResult, LogLevel } from '../lib/gw2Api'
+import { fetchGw2AccountData } from '../lib/gw2Api'
 
 interface StatusLine {
   text: string
@@ -11,11 +11,11 @@ export function ApiKeyBox({
   apiKey,
   setApiKey,
   onFetched,
-}: {
+}: Readonly<{
   apiKey: string
   setApiKey: (key: string) => void
   onFetched: (result: Gw2FetchResult) => void
-}) {
+}>) {
   const [showKey, setShowKey] = useState(false)
   const [loading, setLoading] = useState(false)
   const [statusLines, setStatusLines] = useState<StatusLine[]>([])
@@ -38,6 +38,14 @@ export function ApiKeyBox({
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (apiKey.trim()) {
+      void handleFetch()
+    }
+    // Nur beim Mount: lädt automatisch, falls beim Reload bereits ein Key aus localStorage vorhanden ist.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="mt-4.5 rounded-xl border border-line bg-relic/5 p-3.5 px-4">

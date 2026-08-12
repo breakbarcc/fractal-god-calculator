@@ -57,7 +57,20 @@ export function useFractalCalculator() {
         weeklyCache,
         autoConvert,
       }),
-    [attLevel, prereqDone, curRelic, curPristine, curIFM, curPages, curJournals, activities, extraRuns, extraScale, weeklyCache, autoConvert],
+    [
+      attLevel,
+      prereqDone,
+      curRelic,
+      curPristine,
+      curIFM,
+      curPages,
+      curJournals,
+      activities,
+      extraRuns,
+      extraScale,
+      weeklyCache,
+      autoConvert,
+    ],
   )
 
   return {
