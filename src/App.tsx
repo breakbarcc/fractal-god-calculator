@@ -13,12 +13,12 @@ function App() {
     <div className="mx-auto max-w-[1080px] px-5 pt-12 pb-20">
       <Header />
 
-      <LadderCard currentLevel={calc.attLevel} overallPct={calc.results.overallPct} done={calc.results.done} />
-
       <div className="mb-6 grid grid-cols-1 gap-6 min-[820px]:grid-cols-2">
         <StartingInventoryCard calc={calc} />
         <DailyRoutineCard calc={calc} />
       </div>
+
+      <LadderCard currentLevel={calc.attLevel} overallPct={calc.results.overallPct} done={calc.results.done} />
 
       <ResultsPanel calc={calc} />
 
