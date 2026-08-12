@@ -17,12 +17,12 @@ export function useFractalCalculator() {
 
   const [apiKey, setApiKey] = useLocalStorage('gw2-fractal-god-api-key', '')
 
-  const [activities, setActivities] = useState<Activity[]>(DEFAULT_ACTIVITIES)
-  const [extraRuns, setExtraRuns] = useState(0)
-  const [extraScale, setExtraScale] = useState(DEFAULT_EXTRA_SCALE)
-  const [weeklyCache, setWeeklyCache] = useState(0)
-  const [daysPerWeek, setDaysPerWeek] = useState(DEFAULT_DAYS_PER_WEEK)
-  const [autoConvert, setAutoConvert] = useState(true)
+  const [activities, setActivities] = useLocalStorage<Activity[]>('gw2-fractal-god-activities', DEFAULT_ACTIVITIES)
+  const [extraRuns, setExtraRuns] = useLocalStorage('gw2-fractal-god-extra-runs', 0)
+  const [extraScale, setExtraScale] = useLocalStorage('gw2-fractal-god-extra-scale', DEFAULT_EXTRA_SCALE)
+  const [weeklyCache, setWeeklyCache] = useLocalStorage('gw2-fractal-god-weekly-cache', 0)
+  const [daysPerWeek, setDaysPerWeek] = useLocalStorage('gw2-fractal-god-days-per-week', DEFAULT_DAYS_PER_WEEK)
+  const [autoConvert, setAutoConvert] = useLocalStorage('gw2-fractal-god-auto-convert', true)
 
   function toggleActivity(id: string) {
     setActivities((prev) => prev.map((a) => (a.id === id ? { ...a, on: !a.on } : a)))
