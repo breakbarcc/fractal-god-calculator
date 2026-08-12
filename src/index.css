@@ -42,9 +42,38 @@ body {
   min-height: 100vh;
 }
 
+input[type='number'] {
+  color-scheme: dark;
+}
+
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
-  opacity: 0.5;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  width: 18px;
+  height: 28px;
+  margin-left: 6px;
+  display: block;
+  background-color: var(--color-panel-2);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 5L5 1L9 5' stroke='%239b7fe0' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%239b7fe0' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat;
+  background-position: top 4px center, bottom 4px center;
+  background-size: 9px 5px, 9px 5px;
+  border-left: 1px solid var(--color-line);
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+input[type='number']:hover::-webkit-inner-spin-button {
+  opacity: 1;
+  background-color: color-mix(in srgb, var(--color-panel-2), var(--color-arcane) 12%);
 }
 
 input[type='number']:focus,
