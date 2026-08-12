@@ -51,3 +51,13 @@ input[type='number']:focus,
 select:focus {
   outline: none;
 }
+
+::selection {
+  background: var(--color-arcane);
+  color: var(--color-void-0);
+}
+
+::-moz-selection {
+  background: var(--color-arcane);
+  color: var(--color-void-0);
+}
