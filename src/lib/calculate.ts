@@ -3,6 +3,8 @@ import type { CalculatorInputs, CalculatorResults } from '../types'
 
 const DAYS_IN_WEEK = 7
 
+const TOTAL_LADDER_RELIC_EQUIV = MIST_ATTUNEMENT.reduce((sum, tier) => sum + tier.relic + tier.ifm * IFM_CRAFT_RELIC, 0)
+
 interface Needs {
   relic: number
   pristine: number
@@ -225,8 +227,7 @@ export function calculate(inputs: CalculatorInputs): CalculatorResults {
   const daysNeeded = Math.max(daysRelic, daysPristine, daysPages)
   const bottleneck = determineBottleneck(daysRelic, daysPristine, daysPages)
 
-  const totalRelicEquiv = base.totalRelicBase + base.totalIFMBase * IFM_CRAFT_RELIC
-  const overallPct = totalRelicEquiv > 0 ? Math.max(0, Math.min(100, (1 - remRelic / totalRelicEquiv) * 100)) : 100
+  const overallPct = Math.max(0, Math.min(100, (1 - remRelic / TOTAL_LADDER_RELIC_EQUIV) * 100))
 
   return {
     done: false,

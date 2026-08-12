@@ -3,19 +3,32 @@ import { ATTUNEMENT_TITLES } from '../data/constants'
 const CX = [120, 340, 560, 780]
 const CY = 60
 
-export function AttunementLadder({ currentLevel }: { currentLevel: number }) {
-  const progressX = 120 + (Math.min(currentLevel, 4) / 4) * 660
+export function AttunementLadder({
+  currentLevel,
+  overallPct,
+}: Readonly<{ currentLevel: number; overallPct: number }>) {
+  const progress = Math.max(0, Math.min(100, overallPct)) / 100
+  const progressX = 120 + progress * 660
 
   return (
     <svg viewBox="0 0 900 140" className="block h-auto w-full">
       <defs>
-        <linearGradient id="gradLine" x1="0" y1="0" x2="1" y2="0">
+        <linearGradient id="gradLine" gradientUnits="userSpaceOnUse" x1="120" y1={CY} x2="780" y2={CY}>
           <stop offset="0%" stopColor="#5b9bd5" />
           <stop offset="100%" stopColor="#c3aef7" />
         </linearGradient>
       </defs>
-      <line x1="120" y1={CY} x2="780" y2={CY} stroke="rgba(255,255,255,.08)" strokeWidth="3" />
-      <line x1="120" y1={CY} x2={progressX} y2={CY} stroke="url(#gradLine)" strokeWidth="3" />
+      <line x1="120" y1={CY} x2="780" y2={CY} stroke="rgba(255,255,255,.08)" strokeWidth="10" strokeLinecap="round" />
+      <line
+        x1="120"
+        y1={CY}
+        x2={progressX}
+        y2={CY}
+        stroke="url(#gradLine)"
+        strokeWidth="10"
+        strokeLinecap="round"
+        className="transition-[x2] duration-[400ms]"
+      />
 
       {ATTUNEMENT_TITLES.map((title, i) => {
         const lvl = i + 1
