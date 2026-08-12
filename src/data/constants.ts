@@ -59,6 +59,19 @@ export const SCALE_OPTIONS: SelectOption[] = [
 
 export const DEFAULT_EXTRA_SCALE = 15
 
+export const DAYS_PER_WEEK_OPTIONS: SelectOption[] = [
+  { value: 0, label: '0 Tage/Woche' },
+  { value: 1, label: '1 Tag/Woche' },
+  { value: 2, label: '2 Tage/Woche' },
+  { value: 3, label: '3 Tage/Woche' },
+  { value: 4, label: '4 Tage/Woche' },
+  { value: 5, label: '5 Tage/Woche' },
+  { value: 6, label: '6 Tage/Woche' },
+  { value: 7, label: '7 Tage/Woche (täglich)' },
+]
+
+export const DEFAULT_DAYS_PER_WEEK = 7
+
 export const WEEKLY_CACHE_OPTIONS: SelectOption[] = [
   { value: 0, label: 'Keine' },
   { value: 12, label: 'Tier-3-Zugang — 6× Cache/Woche (12 Pages)' },

@@ -54,5 +54,6 @@ export interface CalculatorInputs {
   extraRuns: number
   extraScale: number
   weeklyCache: number
+  daysPerWeek: number
   autoConvert: boolean
 }

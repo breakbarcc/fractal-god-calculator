@@ -1,4 +1,4 @@
-import { SCALE_OPTIONS, WEEKLY_CACHE_OPTIONS } from '../data/constants'
+import { DAYS_PER_WEEK_OPTIONS, SCALE_OPTIONS, WEEKLY_CACHE_OPTIONS } from '../data/constants'
 import { cardClass, inputClass, selectClass } from '../styles'
 import { ActivityToggle } from './ActivityToggle'
 import type { FractalCalculator } from '../hooks/useFractalCalculator'
@@ -11,6 +11,22 @@ export function DailyRoutineCard({ calc }: Readonly<{ calc: FractalCalculator }>
         Wähl aus, was du täglich läufst. Die Werte pro Aktivität stammen aus den offiziellen Belohnungs-Angaben des
         GW2-Wikis.
       </p>
+
+      <label htmlFor={'days-per-week'} className="text-[13px] text-text-dim">
+        An wie vielen Tagen pro Woche läufst du Fraktale?
+      </label>
+      <select
+        id={'days-per-week'}
+        value={calc.daysPerWeek}
+        onChange={(e) => calc.setDaysPerWeek(Number.parseInt(e.target.value))}
+        className={`${selectClass} mb-4.5`}
+      >
+        {DAYS_PER_WEEK_OPTIONS.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
 
       {calc.activities.map((activity) => (
         <ActivityToggle key={activity.id} activity={activity} onToggle={() => calc.toggleActivity(activity.id)} />

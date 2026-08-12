@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { DEFAULT_ACTIVITIES, DEFAULT_EXTRA_SCALE } from '../data/constants'
+import { DEFAULT_ACTIVITIES, DEFAULT_DAYS_PER_WEEK, DEFAULT_EXTRA_SCALE } from '../data/constants'
 import { calculate } from '../lib/calculate'
 import { useLocalStorage } from './useLocalStorage'
 import type { Gw2FetchResult } from '../lib/gw2Api'
@@ -21,6 +21,7 @@ export function useFractalCalculator() {
   const [extraRuns, setExtraRuns] = useState(0)
   const [extraScale, setExtraScale] = useState(DEFAULT_EXTRA_SCALE)
   const [weeklyCache, setWeeklyCache] = useState(0)
+  const [daysPerWeek, setDaysPerWeek] = useState(DEFAULT_DAYS_PER_WEEK)
   const [autoConvert, setAutoConvert] = useState(true)
 
   function toggleActivity(id: string) {
@@ -51,6 +52,7 @@ export function useFractalCalculator() {
         extraRuns,
         extraScale,
         weeklyCache,
+        daysPerWeek,
         autoConvert,
       }),
     [
@@ -65,6 +67,7 @@ export function useFractalCalculator() {
       extraRuns,
       extraScale,
       weeklyCache,
+      daysPerWeek,
       autoConvert,
     ],
   )
@@ -94,6 +97,8 @@ export function useFractalCalculator() {
     setExtraScale,
     weeklyCache,
     setWeeklyCache,
+    daysPerWeek,
+    setDaysPerWeek,
     autoConvert,
     setAutoConvert,
     applyFetchResult,
