@@ -28,6 +28,13 @@ export const ATTUNEMENT_LEVEL_OPTIONS: SelectOption[] = [
   { value: 4, label: 'Stufe 4 — Fractal God (fertig!)' },
 ]
 
+// scaleRelicBonus: completion reward from SCALE_OPTIONS for the scale(s) an activity is run at
+// (GW2 wiki "Fractal levels" table — each fractal type has one fixed scale per tier).
+// - Tägliche Fraktale covers one run per tier T1-T4; using each tier's highest scale:
+//   T1 max 25 (9) + T2 max 50 (14) + T3 max 75 (17) + T4 max 100 (19) = 59
+// - Empfohlene Fraktale covers T1-T3 only (Recommended never includes Master/T4): 9 + 14 + 17 = 40
+// - All 6 Challenge Mote fractals sit at Master-tier scale 91-100 (Kinfall 95, Nightmare 96,
+//   Shattered Observatory 97, Sunqua Peak 98, Silent Surf 99, Lonely Tower 100) = 19 each
 export const DEFAULT_ACTIVITIES: Activity[] = [
   {
     id: 'tierDailies',
@@ -37,6 +44,7 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pristine: 12,
     pages: 0,
     integrated_fractal: 0,
+    scaleRelicBonus: 59,
   },
   {
     id: 'recommended',
@@ -46,9 +54,28 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pristine: 3,
     pages: 3,
     integrated_fractal: 0,
+    scaleRelicBonus: 40,
   },
-  { id: 'cmKinfall', label: 'CM: Kinfall', on: true, relic: 100, pristine: 2, pages: 1, integrated_fractal: 1 },
-  { id: 'cmNightmare', label: 'CM: Nightmare', on: true, relic: 140, pristine: 2, pages: 1, integrated_fractal: 1 },
+  {
+    id: 'cmKinfall',
+    label: 'CM: Kinfall',
+    on: true,
+    relic: 100,
+    pristine: 2,
+    pages: 1,
+    integrated_fractal: 1,
+    scaleRelicBonus: 19,
+  },
+  {
+    id: 'cmNightmare',
+    label: 'CM: Nightmare',
+    on: true,
+    relic: 140,
+    pristine: 2,
+    pages: 1,
+    integrated_fractal: 1,
+    scaleRelicBonus: 19,
+  },
   {
     id: 'cmShattered',
     label: 'CM: Shattered Observatory',
@@ -57,17 +84,37 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pristine: 2,
     pages: 1,
     integrated_fractal: 1,
+    scaleRelicBonus: 19,
   },
-  { id: 'cmSunqua', label: 'CM: Sunqua Peak', on: false, relic: 120, pristine: 2, pages: 1, integrated_fractal: 1 },
-  { id: 'cmSilentSurf', label: 'CM: Silent Surf', on: false, relic: 100, pristine: 2, pages: 1, integrated_fractal: 1 },
   {
-    id: 'cmLonelyTower',
-    label: 'CM: Lonely Tower',
+    id: 'cmSunqua',
+    label: 'CM: Sunqua Peak',
+    on: false,
+    relic: 120,
+    pristine: 2,
+    pages: 1,
+    integrated_fractal: 1,
+    scaleRelicBonus: 19,
+  },
+  {
+    id: 'cmSilentSurf',
+    label: 'CM: Silent Surf',
     on: false,
     relic: 100,
     pristine: 2,
     pages: 1,
     integrated_fractal: 1,
+    scaleRelicBonus: 19,
+  },
+  {
+    id: 'cmLonelyTower',
+    label: 'CM: Lonely Tower',
+    on: false,
+    relic: 120,
+    pristine: 2,
+    pages: 1,
+    integrated_fractal: 1,
+    scaleRelicBonus: 19,
   },
 ]
 

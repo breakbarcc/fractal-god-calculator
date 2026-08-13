@@ -15,6 +15,8 @@ export interface Activity {
   pristine: number
   pages: number
   integrated_fractal: number
+  /** Fractal-scale completion bonus (from SCALE_OPTIONS) this activity's run(s) grant on top of `relic`. */
+  scaleRelicBonus: number
 }
 
 export interface SelectOption {

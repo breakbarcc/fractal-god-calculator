@@ -17,7 +17,17 @@ export function useFractalCalculator() {
 
   const [apiKey, setApiKey] = useLocalStorage('gw2-fractal-god-api-key', '')
 
-  const [activities, setActivities] = useLocalStorage<Activity[]>('gw2-fractal-god-activities', DEFAULT_ACTIVITIES)
+  // Only the on/off toggle is user-editable — everything else is fixed game data from
+  // DEFAULT_ACTIVITIES, re-applied on every load so schema/value updates always take effect
+  // instead of getting shadowed by a stale persisted Activity object.
+  const [activityToggles, setActivityToggles] = useLocalStorage<Record<string, boolean>>(
+    'gw2-fractal-god-activity-toggles',
+    {},
+  )
+  const activities: Activity[] = DEFAULT_ACTIVITIES.map((a) => ({
+    ...a,
+    on: activityToggles[a.id] ?? a.on,
+  }))
   const [extraRuns, setExtraRuns] = useLocalStorage('gw2-fractal-god-extra-runs', 0)
   const [extraScale, setExtraScale] = useLocalStorage('gw2-fractal-god-extra-scale', DEFAULT_EXTRA_SCALE)
   const [weeklyCache, setWeeklyCache] = useLocalStorage('gw2-fractal-god-weekly-cache', 0)
@@ -25,7 +35,8 @@ export function useFractalCalculator() {
   const [autoConvert, setAutoConvert] = useLocalStorage('gw2-fractal-god-auto-convert', true)
 
   function toggleActivity(id: string) {
-    setActivities((prev) => prev.map((a) => (a.id === id ? { ...a, on: !a.on } : a)))
+    const current = activities.find((a) => a.id === id)?.on ?? true
+    setActivityToggles((prev) => ({ ...prev, [id]: !current }))
   }
 
   function applyFetchResult(fetched: Gw2FetchResult) {

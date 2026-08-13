@@ -1,3 +1,4 @@
+import { calculateActivityRelic } from '../lib/activityRelic'
 import type { Activity } from '../types'
 
 function YieldStat({ icon, alt, value }: Readonly<{ icon: string; alt: string; value: number }>) {
@@ -31,7 +32,7 @@ export function ActivityToggle({
         <div className="flex-1 text-[13.5px] font-medium">{activity.label}</div>
       </div>
       <div className="mt-2.5 grid grid-cols-4 gap-2">
-        <YieldStat icon="/icons/fractal-relic.png" alt="Fractal Relic" value={activity.relic} />
+        <YieldStat icon="/icons/fractal-relic.png" alt="Fractal Relic" value={calculateActivityRelic(activity)} />
         <YieldStat icon="/icons/pristine-fractal-relic.png" alt="Pristine Fractal Relic" value={activity.pristine} />
         <YieldStat icon="/icons/fractal-research-page.png" alt="Fractal Research Page" value={activity.pages} />
         <YieldStat

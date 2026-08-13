@@ -1,4 +1,5 @@
 import { IFM_CRAFT_RELIC, MIST_ATTUNEMENT, PAGES_PER_JOURNAL, PREREQ, PRISTINE_TO_RELIC } from '../data/constants'
+import { calculateActivityRelic } from './activityRelic'
 import type { CalculatorInputs, CalculatorResults } from '../types'
 
 const DAYS_IN_WEEK = 7
@@ -99,7 +100,7 @@ function calculateDailyRates(inputs: CalculatorInputs): DailyRates {
   let ifmPerDay = 0
   for (const activity of inputs.activities) {
     if (activity.on) {
-      relicPerDay += activity.relic
+      relicPerDay += calculateActivityRelic(activity)
       pristinePerDay += activity.pristine
       pagesPerDay += activity.pages
       ifmPerDay += activity.integrated_fractal
