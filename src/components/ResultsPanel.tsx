@@ -50,6 +50,12 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
             )
           })()}
       </div>
+      {!r.done && r.potionRelicPerDay > 0.05 && (
+        <div className="mb-1.5 text-center font-mono text-xs text-pristine">
+          🧪 {fmt(r.potionRelicPerDay)} Fractal Relic/Tag aus Mist-Potions der Empfohlenen Fraktale (getauscht beim
+          Mist Potion Brewer) bereits eingerechnet.
+        </div>
+      )}
 
       <div className="mb-7 text-center">
         {r.done ? (

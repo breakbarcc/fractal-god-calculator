@@ -1,5 +1,5 @@
 import { IFM_CRAFT_RELIC, MIST_ATTUNEMENT, PAGES_PER_JOURNAL, PREREQ, PRISTINE_TO_RELIC } from '../data/constants'
-import { calculateActivityRelic } from './activityRelic'
+import { calculateActivityRelic, calculatePotionRelic } from './activityRelic'
 import type { CalculatorInputs, CalculatorResults } from '../types'
 
 const DAYS_IN_WEEK = 7
@@ -29,6 +29,7 @@ interface DailyRates {
   pristinePerDay: number
   pagesPerDay: number
   ifmPerDay: number
+  potionRelicPerDay: number
 }
 
 function doneResult(): CalculatorResults {
@@ -49,6 +50,7 @@ function doneResult(): CalculatorResults {
     daysNeeded: 0,
     calendarDaysNeeded: 0,
     convertedPristine: 0,
+    potionRelicPerDay: 0,
     daysRelicOnly: 0,
     daysRelic: 0,
     bottleneck: null,
@@ -99,9 +101,11 @@ function calculateDailyRates(inputs: CalculatorInputs): DailyRates {
   let pristinePerDay = 0
   let pagesPerDay = 0
   let ifmPerDay = 0
+  let potionRelicPerDay = 0
   for (const activity of inputs.activities) {
     if (activity.on) {
       relicPerDay += calculateActivityRelic(activity, inputs.currentLevel)
+      potionRelicPerDay += calculatePotionRelic(activity)
       pristinePerDay += activity.pristine
       pagesPerDay += activity.pages
       ifmPerDay += activity.integrated_fractal
@@ -114,12 +118,13 @@ function calculateDailyRates(inputs: CalculatorInputs): DailyRates {
   pristinePerDay *= playFraction
   pagesPerDay *= playFraction
   ifmPerDay *= playFraction
+  potionRelicPerDay *= playFraction
 
   if (inputs.daysPerWeek > 0) {
     pagesPerDay += inputs.weeklyCache / DAYS_IN_WEEK
   }
 
-  return { relicPerDay, pristinePerDay, pagesPerDay, ifmPerDay }
+  return { relicPerDay, pristinePerDay, pagesPerDay, ifmPerDay, potionRelicPerDay }
 }
 
 /** Days until `remaining` is covered by `perDay` income; 0 if already covered, Infinity if income is 0. */
@@ -276,6 +281,7 @@ export function calculate(inputs: CalculatorInputs): CalculatorResults {
     daysNeeded,
     calendarDaysNeeded,
     convertedPristine,
+    potionRelicPerDay: calendarRates.potionRelicPerDay,
     daysRelicOnly,
     daysRelic,
     bottleneck,

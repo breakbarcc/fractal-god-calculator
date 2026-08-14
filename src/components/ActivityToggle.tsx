@@ -47,6 +47,25 @@ export function ActivityToggle({
           value={activity.integrated_fractal}
         />
       </div>
+      {(activity.potionDefensive > 0 || activity.potionMobility > 0 || activity.potionOffensive > 0) && (
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          <YieldStat
+            icon="/icons/mist-potion-defensive.png"
+            alt="Large Mist Defensive Potion"
+            value={activity.potionDefensive}
+          />
+          <YieldStat
+            icon="/icons/mist-potion-mobility.png"
+            alt="Large Mist Mobility Potion"
+            value={activity.potionMobility}
+          />
+          <YieldStat
+            icon="/icons/mist-potion-offensive.png"
+            alt="Large Mist Offensive Potion"
+            value={activity.potionOffensive}
+          />
+        </div>
+      )}
     </div>
   )
 }

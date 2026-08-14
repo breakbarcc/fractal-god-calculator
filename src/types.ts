@@ -17,6 +17,10 @@ export interface Activity {
   integrated_fractal: number
   /** Fractal-scale completion bonus (from SCALE_OPTIONS) this activity's run(s) grant on top of `relic`. */
   scaleRelicBonus: number
+  /** Large Mist Potions (Defensive/Mobility/Offensive) this activity's Research Chests grant. */
+  potionDefensive: number
+  potionMobility: number
+  potionOffensive: number
 }
 
 export interface SelectOption {
@@ -41,6 +45,7 @@ export interface CalculatorResults {
   daysNeeded: number
   calendarDaysNeeded: number
   convertedPristine: number
+  potionRelicPerDay: number
   daysRelicOnly: number
   daysRelic: number
   bottleneck: 'relic' | 'pristine' | 'pages' | null

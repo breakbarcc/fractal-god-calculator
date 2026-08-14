@@ -21,6 +21,16 @@ export const PREREQ = { relic: 5750, ifm: 35 }
 export const HANDFUL_RELIC = 3
 export const POUCH_RELIC = 5
 
+// Completing a Recommended fractal's Research Chest also grants a Large Mist Potion — Defensive
+// for the Initiate's (T1), Mobility for the Adept's (T2), Offensive for the Expert's (T3) chest.
+// The Mist Potion Brewer buys each back for a bundle of Handful of Fractal Relics:
+// https://wiki.guildwars2.com/wiki/Mist_Potion_Brewer
+export const MIST_POTION_RELIC = {
+  defensive: 5 * HANDFUL_RELIC, // 15
+  mobility: 5 * HANDFUL_RELIC, // 15
+  offensive: 6 * HANDFUL_RELIC, // 18
+}
+
 export const ATTUNEMENT_TITLES = ['Fractal Savant', 'Fractal Prodigy', 'Fractal Champion', 'Fractal God']
 
 // Title IDs from /v2/titles, in the same order as ATTUNEMENT_TITLES (index i = level i+1).
@@ -98,6 +108,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 0,
     integrated_fractal: 0,
     scaleRelicBonus: 59,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
   {
     id: 'recommended',
@@ -108,6 +121,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 3,
     integrated_fractal: 0,
     scaleRelicBonus: RECOMMENDED_SCALE_RELIC_BONUS,
+    potionDefensive: 1,
+    potionMobility: 1,
+    potionOffensive: 1,
   },
   {
     id: 'cmKinfall',
@@ -118,6 +134,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 1,
     integrated_fractal: 1,
     scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
   {
     id: 'cmNightmare',
@@ -128,6 +147,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 1,
     integrated_fractal: 1,
     scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
   {
     id: 'cmShattered',
@@ -138,6 +160,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 1,
     integrated_fractal: 1,
     scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
   {
     id: 'cmSunqua',
@@ -148,6 +173,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 1,
     integrated_fractal: 1,
     scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
   {
     id: 'cmSilentSurf',
@@ -158,6 +186,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 1,
     integrated_fractal: 1,
     scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
   {
     id: 'cmLonelyTower',
@@ -168,6 +199,9 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pages: 1,
     integrated_fractal: 1,
     scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
   },
 ]
 
