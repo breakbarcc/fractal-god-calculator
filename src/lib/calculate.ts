@@ -47,6 +47,7 @@ function doneResult(): CalculatorResults {
     pagesPerDay: 0,
     ifmPerDay: 0,
     daysNeeded: 0,
+    calendarDaysNeeded: 0,
     convertedPristine: 0,
     daysRelicOnly: 0,
     daysRelic: 0,
@@ -190,6 +191,39 @@ function determineBottleneck(
   return bottleneck
 }
 
+interface Timeline {
+  daysNeeded: number
+  daysRelicOnly: number
+  daysRelic: number
+  convertedPristine: number
+  bottleneck: CalculatorResults['bottleneck']
+}
+
+/** Days-until-done timeline for a given set of daily rates (session-based or calendar-average). */
+function calculateTimeline(base: BaseRemaining, rates: DailyRates, autoConvert: boolean): Timeline {
+  const relicNeedForDays = calculateRelicNeedForDays(base, rates.relicPerDay, rates.ifmPerDay)
+
+  const daysRelicOnly = daysToReach(relicNeedForDays, rates.relicPerDay)
+  const daysPristine = daysToReach(base.remPristine, rates.pristinePerDay)
+  const daysPages = daysToReach(base.remPages, rates.pagesPerDay)
+
+  const { daysRelic, convertedPristine } = autoConvert
+    ? calculateRelicDaysWithConversion(
+        relicNeedForDays,
+        base.remPristine,
+        rates.relicPerDay,
+        rates.pristinePerDay,
+        daysRelicOnly,
+        daysPristine,
+      )
+    : { daysRelic: daysRelicOnly, convertedPristine: 0 }
+
+  const daysNeeded = Math.max(daysRelic, daysPristine, daysPages)
+  const bottleneck = determineBottleneck(daysRelic, daysPristine, daysPages)
+
+  return { daysNeeded, daysRelicOnly, daysRelic, convertedPristine, bottleneck }
+}
+
 /**
  * Pure port of the original calculator's `calculate()` — same formulas for
  * remaining resources, daily rates, Pristine→Relic auto-conversion timing,
@@ -204,29 +238,24 @@ export function calculate(inputs: CalculatorInputs): CalculatorResults {
 
   const needs = calculateNeeds(currentLevel, prereqDone)
   const base = calculateBaseRemaining(needs, inputs)
-  const { relicPerDay, pristinePerDay, pagesPerDay, ifmPerDay } = calculateDailyRates(inputs)
+
+  // Calendar-average rates (scaled down by how many of the 7 days/week are actually played) —
+  // used for the "X / Tag" display and to derive the predicted completion date.
+  const calendarRates = calculateDailyRates(inputs)
+  // Session rates (as if every day were a play day) — the number of active fractal-days needed
+  // is a property of the routine itself and must not shift just because fewer days/week are
+  // selected; only the calendar date it lands on should.
+  const sessionRates = calculateDailyRates({ ...inputs, daysPerWeek: DAYS_IN_WEEK })
 
   const remIFM = base.ifmDeficit
   const remRelic = base.baseRelicNeed + remIFM * IFM_CRAFT_RELIC
-  const relicNeedForDays = calculateRelicNeedForDays(base, relicPerDay, ifmPerDay)
 
-  const daysRelicOnly = daysToReach(relicNeedForDays, relicPerDay)
-  const daysPristine = daysToReach(base.remPristine, pristinePerDay)
-  const daysPages = daysToReach(base.remPages, pagesPerDay)
-
-  const { daysRelic, convertedPristine } = inputs.autoConvert
-    ? calculateRelicDaysWithConversion(
-        relicNeedForDays,
-        base.remPristine,
-        relicPerDay,
-        pristinePerDay,
-        daysRelicOnly,
-        daysPristine,
-      )
-    : { daysRelic: daysRelicOnly, convertedPristine: 0 }
-
-  const daysNeeded = Math.max(daysRelic, daysPristine, daysPages)
-  const bottleneck = determineBottleneck(daysRelic, daysPristine, daysPages)
+  const { daysNeeded, daysRelicOnly, daysRelic, convertedPristine, bottleneck } = calculateTimeline(
+    base,
+    sessionRates,
+    inputs.autoConvert,
+  )
+  const { daysNeeded: calendarDaysNeeded } = calculateTimeline(base, calendarRates, inputs.autoConvert)
 
   const overallPct = Math.max(0, Math.min(100, (1 - remRelic / TOTAL_LADDER_RELIC_EQUIV) * 100))
 
@@ -240,11 +269,12 @@ export function calculate(inputs: CalculatorInputs): CalculatorResults {
     totalPristineBase: base.totalPristineBase,
     totalPagesBase: base.totalPagesBase,
     totalIFMBase: base.totalIFMBase,
-    relicPerDay,
-    pristinePerDay,
-    pagesPerDay,
-    ifmPerDay,
+    relicPerDay: calendarRates.relicPerDay,
+    pristinePerDay: calendarRates.pristinePerDay,
+    pagesPerDay: calendarRates.pagesPerDay,
+    ifmPerDay: calendarRates.ifmPerDay,
     daysNeeded,
+    calendarDaysNeeded,
     convertedPristine,
     daysRelicOnly,
     daysRelic,

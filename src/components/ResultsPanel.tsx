@@ -65,8 +65,8 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
             </div>
             <div className="mt-1.5 text-[13px] text-text-dim">Tage bis zum Titel</div>
             <div className="mt-2.5 font-mono text-[13.5px] text-text">
-              {Number.isFinite(r.daysNeeded)
-                ? `Voraussichtlich fertig am ${formatTargetDate(r.daysNeeded)}`
+              {Number.isFinite(r.calendarDaysNeeded)
+                ? `Voraussichtlich fertig am ${formatTargetDate(r.calendarDaysNeeded)}`
                 : 'Mit der aktuellen Routine wird mind. eine Ressource nie erreicht.'}
             </div>
             {Number.isFinite(r.daysNeeded) && r.daysNeeded > 0 && r.bottleneck && (

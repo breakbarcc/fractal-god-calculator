@@ -39,6 +39,7 @@ export interface CalculatorResults {
   pagesPerDay: number
   ifmPerDay: number
   daysNeeded: number
+  calendarDaysNeeded: number
   convertedPristine: number
   daysRelicOnly: number
   daysRelic: number
