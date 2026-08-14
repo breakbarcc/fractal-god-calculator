@@ -36,12 +36,55 @@ export const ATTUNEMENT_LEVEL_OPTIONS: SelectOption[] = [
   { value: 4, label: 'Stufe 4 — Fractal God (fertig!)' },
 ]
 
+export const RECOMMENDED_FRACTAL_ROTATION: Record<number, number[]> = {
+  1: [2, 37, 53],
+  2: [6, 28, 61],
+  3: [10, 32, 65],
+  4: [14, 34, 74],
+  5: [19, 50, 70],
+  6: [15, 48, 60],
+  7: [24, 35, 66],
+  8: [21, 36, 75],
+  9: [7, 40, 67],
+  10: [8, 31, 54],
+  11: [11, 39, 59],
+  12: [18, 27, 64],
+  13: [4, 30, 58],
+  14: [16, 42, 62],
+  15: [5, 47, 68],
+}
+
+const ROTATION_LENGTH = 15
+// Anchor point: on this date, this set is/was the active one. Advances by one set per day.
+const ROTATION_REFERENCE_DATE = new Date(2026, 7, 14) // 2026-08-14
+const ROTATION_REFERENCE_SET = 2
+
+function getTodaysRecommendedSet(): number {
+  const msPerDay = 24 * 60 * 60 * 1000
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const daysSinceReference = Math.round((today.getTime() - ROTATION_REFERENCE_DATE.getTime()) / msPerDay)
+  const offset = (((ROTATION_REFERENCE_SET - 1 + daysSinceReference) % ROTATION_LENGTH) + ROTATION_LENGTH) % ROTATION_LENGTH
+  return offset + 1
+}
+
+// Relic reward for completing a fractal at the given scale, per the SCALE_OPTIONS brackets below
+// (5-wide from scale 1-50, 10-wide from scale 51-100).
+function relicForScale(scale: number): number {
+  if (scale <= 50) return 5 + Math.floor((scale - 1) / 5)
+  return 15 + Math.floor((scale - 51) / 10)
+}
+
+const todaysRecommendedScales = RECOMMENDED_FRACTAL_ROTATION[getTodaysRecommendedSet()]
+const RECOMMENDED_SCALE_RELIC_BONUS = todaysRecommendedScales.reduce((sum, scale) => sum + relicForScale(scale), 0)
+
 // scaleRelicBonus: completion reward from SCALE_OPTIONS for the scale(s) an activity is run at
 // (GW2 wiki "Fractal levels" table — each fractal type has one fixed scale per tier).
-// - Tägliche Fraktale covers one run per tier T1-T4; using each tier's highest scale:
+// - Daily Fractals covers one run per tier T1-T4; using each tier's highest scale:
 //   T1 max 25 (9) + T2 max 50 (14) + T3 max 75 (17) + T4 max 100 (19) = 59
-// - Empfohlene Fraktale covers T1-T3 only (Recommended never includes Master/T4): 9 + 14 + 17 = 40
-// - All 6 Challenge Mote fractals sit at Master-tier scale 91-100 (Kinfall 95, Nightmare 96,
+// - Recommended fractals covers T1-T3 only (Recommended never includes Master/T4); its bonus is
+//   computed above (RECOMMENDED_SCALE_RELIC_BONUS) from today's actual rotation scales
+// - All 6 Challenge Mode fractals sit at Master-tier scale 91-100 (Kinfall 95, Nightmare 96,
 //   Shattered Observatory 97, Sunqua Peak 98, Silent Surf 99, Lonely Tower 100) = 19 each
 // (Which activities count as T1/T2 vs T3/T4 completions for the Handful/Pouch bonus is decided
 // in lib/activityRelic.ts, since the per-completion drop count depends on Mist Attunement rank.)
@@ -64,7 +107,7 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     pristine: 3,
     pages: 3,
     integrated_fractal: 0,
-    scaleRelicBonus: 40,
+    scaleRelicBonus: RECOMMENDED_SCALE_RELIC_BONUS,
   },
   {
     id: 'cmKinfall',
