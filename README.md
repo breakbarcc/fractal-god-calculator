@@ -68,6 +68,6 @@ Standard-Vite-Projekt — Vercel erkennt das Framework automatisch, kein `vercel
 
 ## Todo
 
-- [ ] Pouch of Fractal Relics: 1 pro Fraktal-Titel, T3 + T4, 51–100
-- [ ] Handful of Fractal Relics: 1 pro Fraktal-Titel, T1 – T2
+- [x] Pouch of Fractal Relics: 1 pro Fraktal-Titel, T3 + T4, 51–100
+- [x] Handful of Fractal Relics: 1 pro Fraktal-Titel, T1 – T2
 - [ ] Weitere Fraktal-Belohnungen ergänzen

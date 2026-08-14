@@ -29,7 +29,12 @@ export function DailyRoutineCard({ calc }: Readonly<{ calc: FractalCalculator }>
       </select>
 
       {calc.activities.map((activity) => (
-        <ActivityToggle key={activity.id} activity={activity} onToggle={() => calc.toggleActivity(activity.id)} />
+        <ActivityToggle
+          key={activity.id}
+          activity={activity}
+          attunementRank={calc.attLevel}
+          onToggle={() => calc.toggleActivity(activity.id)}
+        />
       ))}
 
       <div className="my-4 h-px bg-line" />

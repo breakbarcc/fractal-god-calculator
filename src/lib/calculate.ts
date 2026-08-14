@@ -100,7 +100,7 @@ function calculateDailyRates(inputs: CalculatorInputs): DailyRates {
   let ifmPerDay = 0
   for (const activity of inputs.activities) {
     if (activity.on) {
-      relicPerDay += calculateActivityRelic(activity)
+      relicPerDay += calculateActivityRelic(activity, inputs.currentLevel)
       pristinePerDay += activity.pristine
       pagesPerDay += activity.pages
       ifmPerDay += activity.integrated_fractal

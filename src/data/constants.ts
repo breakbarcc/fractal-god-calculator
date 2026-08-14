@@ -13,6 +13,14 @@ export const MIST_ATTUNEMENT: AttunementTier[] = [
 
 export const PREREQ = { relic: 5750, ifm: 35 }
 
+// Each owned Mist Attunement rank (1-4) makes every T1/T2 fractal completion also drop one more
+// "Handful of Fractal Relics" (3 Relic) and every T3/T4 completion one more "Pouch of Fractal
+// Relics" (5 Relic) — see calculateActivityRelic() in lib/activityRelic.ts for the per-rank math.
+// https://wiki.guildwars2.com/wiki/Handful_of_Fractal_Relics
+// https://wiki.guildwars2.com/wiki/Pouch_of_Fractal_Relics
+export const HANDFUL_RELIC = 3
+export const POUCH_RELIC = 5
+
 export const ATTUNEMENT_TITLES = ['Fractal Savant', 'Fractal Prodigy', 'Fractal Champion', 'Fractal God']
 
 // Title IDs from /v2/titles, in the same order as ATTUNEMENT_TITLES (index i = level i+1).
@@ -35,6 +43,8 @@ export const ATTUNEMENT_LEVEL_OPTIONS: SelectOption[] = [
 // - Empfohlene Fraktale covers T1-T3 only (Recommended never includes Master/T4): 9 + 14 + 17 = 40
 // - All 6 Challenge Mote fractals sit at Master-tier scale 91-100 (Kinfall 95, Nightmare 96,
 //   Shattered Observatory 97, Sunqua Peak 98, Silent Surf 99, Lonely Tower 100) = 19 each
+// (Which activities count as T1/T2 vs T3/T4 completions for the Handful/Pouch bonus is decided
+// in lib/activityRelic.ts, since the per-completion drop count depends on Mist Attunement rank.)
 export const DEFAULT_ACTIVITIES: Activity[] = [
   {
     id: 'tierDailies',

@@ -12,9 +12,11 @@ function YieldStat({ icon, alt, value }: Readonly<{ icon: string; alt: string; v
 
 export function ActivityToggle({
   activity,
+  attunementRank,
   onToggle,
 }: Readonly<{
   activity: Activity
+  attunementRank: number
   onToggle: () => void
 }>) {
   return (
@@ -32,7 +34,11 @@ export function ActivityToggle({
         <div className="flex-1 text-[13.5px] font-medium">{activity.label}</div>
       </div>
       <div className="mt-2.5 grid grid-cols-4 gap-2">
-        <YieldStat icon="/icons/fractal-relic.png" alt="Fractal Relic" value={calculateActivityRelic(activity)} />
+        <YieldStat
+          icon="/icons/fractal-relic.png"
+          alt="Fractal Relic"
+          value={calculateActivityRelic(activity, attunementRank)}
+        />
         <YieldStat icon="/icons/pristine-fractal-relic.png" alt="Pristine Fractal Relic" value={activity.pristine} />
         <YieldStat icon="/icons/fractal-research-page.png" alt="Fractal Research Page" value={activity.pages} />
         <YieldStat
