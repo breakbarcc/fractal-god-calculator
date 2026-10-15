@@ -13,6 +13,7 @@ const TIER_COMPLETIONS: Record<string, { handfulCount: number; pouchCount: numbe
   cmSunqua: { handfulCount: 0, pouchCount: 1 },
   cmSilentSurf: { handfulCount: 0, pouchCount: 1 },
   cmLonelyTower: { handfulCount: 0, pouchCount: 1 },
+  cmSolitaryThrone: { handfulCount: 0, pouchCount: 1 },
 }
 
 /** Relic gained by exchanging this activity's Large Mist Potions at the Mist Potion Brewer. */

@@ -94,8 +94,9 @@ const RECOMMENDED_SCALE_RELIC_BONUS = todaysRecommendedScales.reduce((sum, scale
 //   T1 max 25 (9) + T2 max 50 (14) + T3 max 75 (17) + T4 max 100 (19) = 59
 // - Recommended fractals covers T1-T3 only (Recommended never includes Master/T4); its bonus is
 //   computed above (RECOMMENDED_SCALE_RELIC_BONUS) from today's actual rotation scales
-// - All 6 Challenge Mode fractals sit at Master-tier scale 91-100 (Kinfall 95, Nightmare 96,
-//   Shattered Observatory 97, Sunqua Peak 98, Silent Surf 99, Lonely Tower 100) = 19 each
+// - All 7 Challenge Mode fractals sit at Master-tier scale 91-100 (Kinfall 95, Nightmare 96,
+//   Shattered Observatory 97, Sunqua Peak 98, Silent Surf 99, Lonely Tower 100, Solitary Throne 94)
+//   = 19 each
 // (Which activities count as T1/T2 vs T3/T4 completions for the Handful/Pouch bonus is decided
 // in lib/activityRelic.ts, since the per-completion drop count depends on Mist Attunement rank.)
 export const DEFAULT_ACTIVITIES: Activity[] = [
@@ -195,6 +196,19 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
     label: 'CM: Lonely Tower',
     on: false,
     relic: 120,
+    pristine: 2,
+    pages: 1,
+    integrated_fractal: 1,
+    scaleRelicBonus: 19,
+    potionDefensive: 0,
+    potionMobility: 0,
+    potionOffensive: 0,
+  },
+  {
+    id: 'cmSolitaryThrone',
+    label: 'CM: Solitary Throne',
+    on: false,
+    relic: 100,
     pristine: 2,
     pages: 1,
     integrated_fractal: 1,
