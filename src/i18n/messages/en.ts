@@ -5,6 +5,11 @@ export const en = {
   'meta.title': 'Fractal God Calculator for Guild Wars 2 – Days Until the Title',
   'meta.description':
     'Free Guild Wars 2 calculator: find out how many days you need with your routine until the “Fractal God” title (Mist Attunement 4) – incl. GW2 API import.',
+  'meta.siteName': 'Fractal God Calculator',
+  'meta.imageAlt': 'Fractal God Calculator – diamond logo and title',
+  'meta.appDescription':
+    'Calculates how many days you need in Guild Wars 2 with your current routine until the “Fractal God” title (Mist Attunement 4).',
+  'meta.noscript': 'The Fractal God Calculator needs JavaScript to calculate your days until the title.',
   'meta.ogTitle': 'Fractal God Calculator for Guild Wars 2',
   'meta.ogDescription':
     'How many days until the “Fractal God” title? Calculator for Fractal Relics, Pristine Relics, Research Pages and Mist Attunement 1–4.',

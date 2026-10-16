@@ -9,6 +9,12 @@ export const LANGUAGE_STORAGE_KEY = 'breakbar-language'
 /** BCP 47 locale used for number and date formatting. */
 export const INTL_LOCALES: Record<Language, string> = { en: 'en-US', de: 'de-DE' }
 
+/** Open Graph locale per language. */
+export const OG_LOCALES: Record<Language, string> = { en: 'en_US', de: 'de_DE' }
+
+/** Every language has its own prerendered page (for SEO); the fallback language lives at the root. */
+export const LANGUAGE_PATHS: Record<Language, string> = { en: '/', de: '/de/' }
+
 /** Maps e.g. "de", "de-DE", "DE_at" or a JSON-quoted "\"de\"" to a supported language. */
 export function parseLanguage(value: unknown): Language | undefined {
   if (typeof value !== 'string') return undefined
@@ -20,27 +26,10 @@ export function parseLanguage(value: unknown): Language | undefined {
   return SUPPORTED_LANGUAGES.find((lang) => lang === base)
 }
 
-function readStoredLanguage(): Language | undefined {
-  try {
-    return parseLanguage(window.localStorage.getItem(LANGUAGE_STORAGE_KEY))
-  } catch {
-    return undefined
-  }
-}
-
-function readBrowserLanguage(): Language | undefined {
-  for (const candidate of navigator.languages?.length ? navigator.languages : [navigator.language]) {
-    const lang = parseLanguage(candidate)
-    if (lang) return lang
-  }
-  return undefined
-}
-
-/**
- * Stored "breakbar-language" first, then the browser's language list, then English.
- * Without a window (build-time prerendering) it returns the fallback — never the build machine's locale.
- */
-export function detectLanguage(): Language {
-  if (typeof window === 'undefined') return FALLBACK_LANGUAGE
-  return readStoredLanguage() ?? readBrowserLanguage() ?? FALLBACK_LANGUAGE
+/** The language whose page lives under this URL path ("/de", "/de/…"), if any. The root page has none. */
+export function languageFromPath(pathname: string): Language | undefined {
+  return SUPPORTED_LANGUAGES.find((lang) => {
+    const dir = LANGUAGE_PATHS[lang].replace(/\/$/, '')
+    return dir !== '' && (pathname === dir || pathname.startsWith(`${dir}/`))
+  })
 }

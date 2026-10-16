@@ -4,6 +4,11 @@ export const de: Record<MessageKey, string> = {
   'meta.title': 'Fractal God Rechner für Guild Wars 2 – Tage bis zum Titel',
   'meta.description':
     'Kostenloser Guild Wars 2 Rechner: Berechne, wie viele Tage du mit deiner Routine bis zum Titel „Fractal God“ (Mist Attunement 4) brauchst – inkl. GW2-API-Import.',
+  'meta.siteName': 'Fractal God Rechner',
+  'meta.imageAlt': 'Fractal God Rechner – Logo mit Raute und Titel',
+  'meta.appDescription':
+    'Berechnet, wie viele Tage du in Guild Wars 2 bei deiner aktuellen Routine bis zum Titel „Fractal God“ (Mist Attunement 4) brauchst.',
+  'meta.noscript': 'Der Fractal God Rechner benötigt JavaScript, um deine Tage bis zum Titel zu berechnen.',
   'meta.ogTitle': 'Fractal God Rechner für Guild Wars 2',
   'meta.ogDescription':
     'Wie viele Tage bis zum Titel „Fractal God“? Rechner für Fractal Relics, Pristine Relics, Research Pages und Mist Attunement 1–4.',

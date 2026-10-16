@@ -6,6 +6,7 @@ import { ResultsPanel } from './components/ResultsPanel'
 import { StartingInventoryCard } from './components/StartingInventoryCard'
 import { useFractalCalculator } from './hooks/useFractalCalculator'
 import { I18nProvider } from './i18n/I18nProvider'
+import type { Language } from './i18n/language'
 
 function AppContent() {
   const calc = useFractalCalculator()
@@ -28,9 +29,9 @@ function AppContent() {
   )
 }
 
-function App() {
+function App({ initialLanguage }: Readonly<{ initialLanguage?: Language }>) {
   return (
-    <I18nProvider>
+    <I18nProvider initialLanguage={initialLanguage}>
       <AppContent />
     </I18nProvider>
   )
