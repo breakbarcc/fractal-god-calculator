@@ -1,4 +1,5 @@
 import { ATTUNEMENT_TITLE_IDS, CURRENCY_IDS, GW2_API, ITEM_IDS } from '../data/constants'
+import type { Translate } from '../i18n/translate'
 
 export type LogLevel = 'ok' | 'warn' | undefined
 
@@ -53,24 +54,27 @@ async function apiGet<T>(path: string, key?: string): Promise<T> {
  * Pure port of the original `fetchAccountData()` — resolves wallet, item stock,
  * prerequisites and current attunement level from the GW2 API. Reports progress
  * via `onLog` instead of writing to the DOM directly, so callers can render
- * their own status feed.
+ * their own status feed. Status messages are translated through `t`.
  */
 export async function fetchGw2AccountData(
   apiKey: string,
   onLog: (message: string, level?: LogLevel) => void,
+  t: Translate,
 ): Promise<Gw2FetchResult> {
   const result: Gw2FetchResult = {}
-  onLog('Verbinde mit api.guildwars2.com …')
+  const warn = (source: Parameters<Translate>[0], e: unknown) =>
+    onLog(t('api.warn', { source: t(source), message: (e as Error).message }), 'warn')
+  onLog(t('api.connecting'))
 
   try {
     const wallet = await apiGet<WalletEntry[]>('/account/wallet', apiKey)
     const findVal = (id: number) => wallet.find((w) => w.id === id)?.value ?? 0
     result.curRelic = findVal(CURRENCY_IDS.relic)
-    onLog('✓ Fractal Relic geladen', 'ok')
+    onLog(t('api.relicLoaded'), 'ok')
     result.curPristine = findVal(CURRENCY_IDS.pristine)
-    onLog('✓ Pristine Fractal Relic geladen', 'ok')
+    onLog(t('api.pristineLoaded'), 'ok')
   } catch (e) {
-    onLog('⚠ Wallet: ' + (e as Error).message, 'warn')
+    warn('api.source.wallet', e)
   }
 
   let researchPages = 0
@@ -80,17 +84,17 @@ export async function fetchGw2AccountData(
   try {
     sources.push(await apiGet('/account/materials', apiKey))
   } catch (e) {
-    onLog('⚠ Materiallager: ' + (e as Error).message, 'warn')
+    warn('api.source.materials', e)
   }
   try {
     sources.push(await apiGet('/account/bank', apiKey))
   } catch (e) {
-    onLog('⚠ Bank: ' + (e as Error).message, 'warn')
+    warn('api.source.bank', e)
   }
   try {
     sources.push(await apiGet('/account/inventory', apiKey))
   } catch (e) {
-    onLog('⚠ Geteilte Inventarplätze: ' + (e as Error).message, 'warn')
+    warn('api.source.sharedInventory', e)
   }
   if (sources.length) {
     for (const src of sources) {
@@ -101,8 +105,8 @@ export async function fetchGw2AccountData(
     result.curPages = researchPages
     result.curJournals = journals
     result.curIFM = matrices
-    onLog('✓ Research Pages / Journals / Matrix aus Bank + Materiallager + geteilten Plätzen summiert', 'ok')
-    onLog('  (Taschen auf einzelnen Charakteren werden nicht mitgezählt)')
+    onLog(t('api.itemsSummed'), 'ok')
+    onLog(t('api.bagsNote'))
   }
 
   try {
@@ -111,9 +115,9 @@ export async function fetchGw2AccountData(
     const allTwo =
       get('fractal_empowerment') >= 2 && get('fractal_karmic_retribution') >= 2 && get('fractal_agony_impedance') >= 2
     result.prereqDone = allTwo
-    onLog('✓ Grundvoraussetzungen erkannt: ' + (allTwo ? 'erfüllt' : 'noch nicht vollständig'), 'ok')
+    onLog(t('api.prereqDetected', { state: t(allTwo ? 'api.prereqMet' : 'api.prereqNotMet') }), 'ok')
   } catch (e) {
-    onLog('⚠ Progression: ' + (e as Error).message, 'warn')
+    warn('api.source.progression', e)
   }
 
   try {
@@ -123,11 +127,11 @@ export async function fetchGw2AccountData(
       if (owned.includes(id)) level = i + 1
     })
     result.attLevel = level
-    onLog('✓ Mist-Attunement-Stufe erkannt: ' + level + ' von 4', 'ok')
+    onLog(t('api.levelDetected', { level }), 'ok')
   } catch (e) {
-    onLog('⚠ Titel: ' + (e as Error).message, 'warn')
+    warn('api.source.titles', e)
   }
 
-  onLog('Fertig.')
+  onLog(t('api.done'))
   return result
 }
