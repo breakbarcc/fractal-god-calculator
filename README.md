@@ -52,17 +52,19 @@ npm run dev
 npm run build
 ```
 
-Output geht nach `dist/`. Der Build besteht aus vier Schritten: Typecheck, Client-Bundle, SSR-Bundle (`src/entry-server.tsx`) und `scripts/prerender.mjs`, das die gerenderte App in `dist/index.html` einfügt (siehe [SEO](#seo)).
+Output geht nach `dist/`. Der Build besteht aus vier Schritten: Typecheck, Client-Bundle, SSR-Bundle (`src/entry-server.tsx`) und `scripts/prerender.mjs`, das pro Sprache eine fertige Seite schreibt: `dist/index.html` (Englisch) und `dist/de/index.html` (Deutsch), siehe [SEO](#seo).
 
 ## Sprachen (i18n)
 
 Die Oberfläche gibt es auf Englisch und Deutsch. Die Sprache wird in dieser Reihenfolge bestimmt:
 
-1. `localStorage`-Eintrag `breakbar-language` (z. B. `en`, `de` oder `de-DE`)
-2. Sprache(n) des Browsers (`navigator.languages`)
-3. Fallback: Englisch
+1. Sprachspezifische URL: `/de/` zeigt immer Deutsch (so öffnen Links aus Suchergebnissen in der richtigen Sprache)
+2. `localStorage`-Eintrag `breakbar-language` (z. B. `en`, `de` oder `de-DE`)
+3. Sprache(n) des Browsers (`navigator.languages`)
+4. Fallback: Englisch
 
-- Oben rechts auf der Seite steht ein Sprachwechsler (EN / DE). Er speichert die Wahl in `breakbar-language`.
+Öffnet jemand `/` und ist die erkannte Sprache Deutsch, springt die Adresszeile auf `/de/` (ohne Reload).
+- Oben rechts auf der Seite steht ein Sprachwechsler (EN / DE). Er speichert die Wahl in `breakbar-language` und wechselt die URL zwischen `/` und `/de/`.
 - Die Texte liegen in `src/i18n/messages/en.ts` (Quelle der Wahrheit) und `de.ts`. TypeScript meldet fehlende Schlüssel in `de.ts`.
 - Neue Sprache: Datei in `src/i18n/messages/` anlegen, in `translate.ts` und `language.ts` (`SUPPORTED_LANGUAGES`, `INTL_LOCALES`) eintragen.
 - Spielbegriffe (Fractal Relic, Mist Attunement …) bleiben in allen Sprachen englisch.
@@ -70,9 +72,10 @@ Die Oberfläche gibt es auf Englisch und Deutsch. Die Sprache wird in dieser Rei
 
 ## SEO
 
-- **Vorgerendertes HTML:** `npm run build` rendert die App zur Build-Zeit (auf Englisch, der Fallback-Sprache) und liefert sie bereits im HTML aus, damit Crawler den Inhalt ohne JavaScript sehen. Im Browser ersetzt `createRoot` den Inhalt danach in der erkannten Sprache; `<title>`, Meta-Description und Open-Graph-Texte werden dabei mit angepasst.
-- **`index.html`:** `<title>`, Meta-Description, Canonical, `robots`-Meta, Open Graph, Twitter Card und JSON-LD (`WebApplication`).
-- **`robots.txt` und `sitemap.xml`:** werden beim Build vom `seo`-Plugin in `vite.config.ts` erzeugt.
+- **Eine URL pro Sprache:** Englisch liegt unter `/`, Deutsch unter `/de/`. Jede Seite wird beim Build fertig vorgerendert, damit Crawler Inhalt und Head-Tags ohne JavaScript sehen. Im Browser ersetzt `createRoot` den Inhalt danach.
+- **Head-Tags pro Sprache:** `src/seo/head.ts` erzeugt `<title>`, Meta-Description, Canonical, `hreflang` (`en`, `de`, `x-default` → `/`), `robots`-Meta, Open Graph (inkl. `og:locale` und `og:locale:alternate`), Twitter Card und JSON-LD (`WebApplication`). `index.html` enthält dafür nur Platzhalter. Die Texte stehen in den `meta.*`-Schlüsseln der Message-Dateien.
+- **`robots.txt` und `sitemap.xml`:** werden beim Build vom `seo`-Plugin in `vite.config.ts` erzeugt. Die Sitemap listet beide Seiten mit `xhtml:link`-Alternativen.
+- **Hosting:** Der Server muss `/de/` als `de/index.html` ausliefern (bei statischem Hosting wie Vercel der Standard).
 - **Social-Preview:** `public/og-image.png` (1200×630).
 - **Domain:** Alle absoluten URLs nutzen die Umgebungsvariable `SITE_URL` (z. B. `https://example.com`, ohne Slash am Ende). Ohne Variable gilt der Fallback `https://fractal.breakbar.cc` aus `vite.config.ts`. Bei einer anderen Domain `SITE_URL` setzen.
 - **Search Console:** Nach dem Deploy die Property anlegen und `/sitemap.xml` einreichen.
