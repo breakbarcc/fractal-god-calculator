@@ -3,8 +3,15 @@ export type Language = 'en' | 'de'
 export const SUPPORTED_LANGUAGES: readonly Language[] = ['en', 'de']
 export const FALLBACK_LANGUAGE: Language = 'en'
 
-/** Shared across all breakbar pages: localStorage entry holding the user's chosen language. */
-export const LANGUAGE_STORAGE_KEY = 'breakbar-language'
+/** Cookie holding the user's chosen language, shared by all *.breakbar.cc pages (any of them may set it). */
+export const LANGUAGE_COOKIE_NAME = 'breakbar-language'
+export const LANGUAGE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // one year, in seconds
+const COOKIE_DOMAIN = 'breakbar.cc'
+
+/** Cookie `Domain` for this host: the shared parent domain on breakbar.cc (and subdomains), otherwise none (host-only). */
+export function cookieDomainFor(hostname: string): string | undefined {
+  return hostname === COOKIE_DOMAIN || hostname.endsWith(`.${COOKIE_DOMAIN}`) ? COOKIE_DOMAIN : undefined
+}
 
 /** BCP 47 locale used for number and date formatting. */
 export const INTL_LOCALES: Record<Language, string> = { en: 'en-US', de: 'de-DE' }

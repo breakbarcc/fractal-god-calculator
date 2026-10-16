@@ -3,8 +3,8 @@ import type { ReactNode } from 'react'
 import { fmt, formatTargetDate } from '../lib/format'
 import { I18nContext } from './context'
 import type { I18n } from './context'
-import { detectLanguage, detectPreferredLanguage } from './detect'
-import { INTL_LOCALES, LANGUAGE_PATHS, LANGUAGE_STORAGE_KEY, OG_LOCALES, SUPPORTED_LANGUAGES } from './language'
+import { detectLanguage, detectPreferredLanguage, persistLanguage, readCookieLanguage } from './detect'
+import { INTL_LOCALES, LANGUAGE_PATHS, OG_LOCALES, SUPPORTED_LANGUAGES } from './language'
 import type { Language } from './language'
 import { createTranslate } from './translate'
 import type { Translate } from './translate'
@@ -57,13 +57,25 @@ export function I18nProvider({
 }: Readonly<{ children: ReactNode; initialLanguage?: Language }>) {
   const [lang, setLangState] = useState(() => initialLanguage ?? detectLanguage())
 
-  // Follow language changes made in another tab (or by another breakbar page) in the same browser.
+  // Follow a language change made in another tab or on another breakbar subdomain. Cookies fire no change
+  // event, so check when this tab regains focus — and only react if the cookie really changed.
   useEffect(() => {
-    function onStorage(e: StorageEvent) {
-      if (e.key === LANGUAGE_STORAGE_KEY || e.key === null) setLangState(detectPreferredLanguage())
+    let lastSeen = readCookieLanguage()
+    function syncFromCookie() {
+      const current = readCookieLanguage()
+      if (current === lastSeen) return
+      lastSeen = current
+      if (current) setLangState(detectPreferredLanguage())
     }
-    window.addEventListener('storage', onStorage)
-    return () => window.removeEventListener('storage', onStorage)
+    function onVisibilityChange() {
+      if (document.visibilityState === 'visible') syncFromCookie()
+    }
+    window.addEventListener('focus', syncFromCookie)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      window.removeEventListener('focus', syncFromCookie)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
   }, [])
 
   const value = useMemo<I18n>(() => {
@@ -72,11 +84,7 @@ export function I18nProvider({
       lang,
       setLang: (next) => {
         setLangState(next)
-        try {
-          window.localStorage.setItem(LANGUAGE_STORAGE_KEY, next)
-        } catch {
-          // localStorage unavailable (private mode, quota) — the choice then only lasts for this visit
-        }
+        persistLanguage(next)
       },
       t: createTranslate(lang),
       fmt: (n) => fmt(n, locale),
