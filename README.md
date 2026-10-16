@@ -59,7 +59,7 @@ Output geht nach `dist/`. Der Build besteht aus vier Schritten: Typecheck, Clien
 - **`index.html`:** `<title>`, Meta-Description, Canonical, `robots`-Meta, Open Graph, Twitter Card und JSON-LD (`WebApplication`).
 - **`robots.txt` und `sitemap.xml`:** werden beim Build vom `seo`-Plugin in `vite.config.ts` erzeugt.
 - **Social-Preview:** `public/og-image.png` (1200×630).
-- **Domain:** Alle absoluten URLs nutzen die Umgebungsvariable `SITE_URL` (z. B. `https://example.com`, ohne Slash am Ende). Auf Vercel wird sonst `VERCEL_PROJECT_PRODUCTION_URL` verwendet, lokal der Fallback aus `vite.config.ts`. Bei eigener Domain `SITE_URL` in den Vercel-Projekteinstellungen setzen.
+- **Domain:** Alle absoluten URLs nutzen die Umgebungsvariable `SITE_URL` (z. B. `https://example.com`, ohne Slash am Ende). Ohne Variable gilt der Fallback `https://fractal.breakbar.cc` aus `vite.config.ts`. Bei einer anderen Domain `SITE_URL` setzen.
 - **Search Console:** Nach dem Deploy die Property anlegen und `/sitemap.xml` einreichen.
 
 ## Deploy to Vercel

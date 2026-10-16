@@ -4,14 +4,11 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // Canonical origin used for <link rel="canonical">, Open Graph URLs, robots.txt and sitemap.xml.
-// Set SITE_URL for a custom domain; on Vercel the production domain is picked up automatically.
-const DEFAULT_SITE_URL = 'https://fractal-god-calculator.vercel.app'
+// Defaults to the production domain; set SITE_URL to override it (e.g. for another domain).
+const DEFAULT_SITE_URL = 'https://fractal.breakbar.cc'
 
 function resolveSiteUrl(): string {
-  const fromEnv =
-    process.env.SITE_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined)
-  return (fromEnv ?? DEFAULT_SITE_URL).replace(/\/+$/, '')
+  return (process.env.SITE_URL ?? DEFAULT_SITE_URL).replace(/\/+$/, '')
 }
 
 /** Fills %SITE_URL% in index.html and emits robots.txt + sitemap.xml with the same origin. */
