@@ -59,16 +59,17 @@ Output geht nach `dist/`. Der Build besteht aus vier Schritten: Typecheck, Clien
 Die Oberfläche gibt es auf Englisch und Deutsch. Die Sprache wird in dieser Reihenfolge bestimmt:
 
 1. Sprachspezifische URL: `/de/` zeigt immer Deutsch (so öffnen Links aus Suchergebnissen in der richtigen Sprache)
-2. `localStorage`-Eintrag `breakbar-language` (z. B. `en`, `de` oder `de-DE`)
+2. Cookie `breakbar-language` (z. B. `en`, `de` oder `de-DE`)
 3. Sprache(n) des Browsers (`navigator.languages`)
 4. Fallback: Englisch
 
 Öffnet jemand `/` und ist die erkannte Sprache Deutsch, springt die Adresszeile auf `/de/` (ohne Reload).
-- Oben rechts auf der Seite steht ein Sprachwechsler (EN / DE). Er speichert die Wahl in `breakbar-language` und wechselt die URL zwischen `/` und `/de/`.
+- Oben rechts auf der Seite steht ein Sprachwechsler (EN / DE). Er speichert die Wahl im Cookie `breakbar-language` und wechselt die URL zwischen `/` und `/de/`.
 - Die Texte liegen in `src/i18n/messages/en.ts` (Quelle der Wahrheit) und `de.ts`. TypeScript meldet fehlende Schlüssel in `de.ts`.
 - Neue Sprache: Datei in `src/i18n/messages/` anlegen, in `translate.ts` und `language.ts` (`SUPPORTED_LANGUAGES`, `INTL_LOCALES`) eintragen.
 - Spielbegriffe (Fractal Relic, Mist Attunement …) bleiben in allen Sprachen englisch.
-- `localStorage` gilt nur pro Origin. Eine Subdomain wie `fractal.breakbar.cc` sieht den Eintrag von `breakbar.cc` nicht.
+- Der Cookie `breakbar-language` gilt auf `*.breakbar.cc` domainweit (`Domain=breakbar.cc`, `Path=/`, ein Jahr, `SameSite=Lax`, auf HTTPS zusätzlich `Secure`) und darf von jeder Subdomain gesetzt werden. Auf `localhost` oder anderen Hosts ist er ein normaler Host-Cookie.
+- Cookies lösen kein Änderungs-Event aus: Wurde die Sprache in einem anderen Tab oder auf einer anderen Subdomain geändert, übernimmt die Seite das, sobald der Tab wieder den Fokus bekommt.
 
 ## SEO
 
