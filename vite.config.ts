@@ -2,16 +2,15 @@ import { defineConfig } from 'vite'
 import type { Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { FALLBACK_LANGUAGE } from './src/i18n/language'
+import { createTranslate } from './src/i18n/translate'
+import { renderHead, renderRobots, renderSitemap, resolveSiteUrl } from './src/seo/head'
 
-// Canonical origin used for <link rel="canonical">, Open Graph URLs, robots.txt and sitemap.xml.
-// Defaults to the production domain; set SITE_URL to override it (e.g. for another domain).
-const DEFAULT_SITE_URL = 'https://fractal.breakbar.cc'
-
-function resolveSiteUrl(): string {
-  return (process.env.SITE_URL ?? DEFAULT_SITE_URL).replace(/\/+$/, '')
-}
-
-/** Fills %SITE_URL% in index.html and emits robots.txt + sitemap.xml with the same origin. */
+/**
+ * Dev: fills the SEO placeholders of index.html with the fallback language.
+ * Build: emits robots.txt + sitemap.xml and leaves the placeholders to scripts/prerender.mjs,
+ * which writes one finished page per language.
+ */
 function seoPlugin(siteUrl: string): Plugin {
   let isSsrBuild = false
   return {
@@ -19,25 +18,20 @@ function seoPlugin(siteUrl: string): Plugin {
     configResolved(config) {
       isSsrBuild = Boolean(config.build.ssr)
     },
-    transformIndexHtml: (html) => html.replaceAll('%SITE_URL%', siteUrl),
+    transformIndexHtml(html, ctx) {
+      if (!ctx.server) return html
+      return html
+        .replaceAll('%LANG%', FALLBACK_LANGUAGE)
+        .replace('<!--seo-head-->', () => renderHead(FALLBACK_LANGUAGE, siteUrl))
+        .replace('%NOSCRIPT%', () => createTranslate(FALLBACK_LANGUAGE)('meta.noscript'))
+    },
     generateBundle() {
       if (isSsrBuild) return
-      this.emitFile({
-        type: 'asset',
-        fileName: 'robots.txt',
-        source: `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`,
-      })
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: renderRobots(siteUrl) })
       this.emitFile({
         type: 'asset',
         fileName: 'sitemap.xml',
-        source: `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${siteUrl}/</loc>
-    <lastmod>${new Date().toISOString().slice(0, 10)}</lastmod>
-  </url>
-</urlset>
-`,
+        source: renderSitemap(siteUrl, new Date().toISOString().slice(0, 10)),
       })
     },
   }
@@ -45,5 +39,5 @@ function seoPlugin(siteUrl: string): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), seoPlugin(resolveSiteUrl())],
+  plugins: [react(), tailwindcss(), seoPlugin(resolveSiteUrl(process.env))],
 })
