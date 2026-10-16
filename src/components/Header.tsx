@@ -1,9 +1,11 @@
 import { useI18n } from '../i18n/context'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 export function Header() {
   const { t } = useI18n()
   return (
-    <header className="mb-11 text-center">
+    <header className="relative mb-11 text-center">
+      <LanguageSwitcher />
       <div className="mb-3.5 font-mono text-xs tracking-[0.22em] text-arcane-bright/80 uppercase">
         Fractals of the Mists
       </div>

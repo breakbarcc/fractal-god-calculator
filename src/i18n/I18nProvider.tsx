@@ -13,12 +13,12 @@ function setMeta(selector: string, attribute: string, value: string) {
 }
 
 export function I18nProvider({ children }: Readonly<{ children: ReactNode }>) {
-  const [lang, setLang] = useState(detectLanguage)
+  const [lang, setLangState] = useState(detectLanguage)
 
   // Follow language changes made in another tab (or by another breakbar page) in the same browser.
   useEffect(() => {
     function onStorage(e: StorageEvent) {
-      if (e.key === LANGUAGE_STORAGE_KEY || e.key === null) setLang(detectLanguage())
+      if (e.key === LANGUAGE_STORAGE_KEY || e.key === null) setLangState(detectLanguage())
     }
     window.addEventListener('storage', onStorage)
     return () => window.removeEventListener('storage', onStorage)
@@ -28,6 +28,14 @@ export function I18nProvider({ children }: Readonly<{ children: ReactNode }>) {
     const locale = INTL_LOCALES[lang]
     return {
       lang,
+      setLang: (next) => {
+        setLangState(next)
+        try {
+          window.localStorage.setItem(LANGUAGE_STORAGE_KEY, next)
+        } catch {
+          // localStorage unavailable (private mode, quota) — the choice then only lasts for this visit
+        }
+      },
       t: createTranslate(lang),
       fmt: (n) => fmt(n, locale),
       formatDate: (days) => formatTargetDate(days, locale),

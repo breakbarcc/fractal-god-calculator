@@ -9,6 +9,8 @@ export const en = {
   'meta.ogDescription':
     'How many days until the “Fractal God” title? Calculator for Fractal Relics, Pristine Relics, Research Pages and Mist Attunement 1–4.',
 
+  'language.label': 'Language',
+
   'header.title': 'Fractal God Calculator',
   'header.intro':
     'Calculates how many days you still need for the “Fractal God” title with your current routine — based on the real costs of Mist Attunement 1–4.',

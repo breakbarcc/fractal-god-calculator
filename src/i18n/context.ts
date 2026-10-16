@@ -4,6 +4,8 @@ import type { Translate } from './translate'
 
 export interface I18n {
   lang: Language
+  /** Switches the UI language and stores it in `breakbar-language` for the other breakbar pages. */
+  setLang: (lang: Language) => void
   t: Translate
   /** Locale-aware integer formatting (rounded). */
   fmt: (n: number) => string

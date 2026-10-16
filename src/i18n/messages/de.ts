@@ -8,6 +8,8 @@ export const de: Record<MessageKey, string> = {
   'meta.ogDescription':
     'Wie viele Tage bis zum Titel „Fractal God“? Rechner für Fractal Relics, Pristine Relics, Research Pages und Mist Attunement 1–4.',
 
+  'language.label': 'Sprache',
+
   'header.title': 'Fractal God Rechner',
   'header.intro':
     'Berechnet, wie viele Tage du bei deiner aktuellen Routine noch bis zum Titel „Fractal God“ brauchst — basierend auf den echten Kosten von Mist Attunement 1–4.',
