@@ -14,6 +14,16 @@ export const en = {
   'meta.ogDescription':
     'How many days until the “Fractal God” title? Calculator for Fractal Relics, Pristine Relics, Research Pages and Mist Attunement 1–4.',
 
+  'item.relic': 'Fractal Relic',
+  'item.pristine': 'Pristine Fractal Relic',
+  'item.page': 'Fractal Research Page',
+  'item.pages': 'Fractal Research Pages',
+  'item.matrix': 'Integrated Fractal Matrix',
+  'unit.relic': 'Relic',
+  'unit.pristine': 'Pristine',
+  'unit.ifm': 'IFM',
+  'unit.page': 'Page',
+
   'language.label': 'Language',
 
   'header.eyebrow': 'Fractals of the Mists',
@@ -110,6 +120,10 @@ export const en = {
   'results.finishDate': 'Expected to be done on {date}',
   'results.never': 'With your current routine at least one resource will never be reached.',
   'results.bottleneck': 'Bottleneck: {name}',
+  'results.card.relic': 'Fractal Relic',
+  'results.card.pristine': 'Pristine Relic',
+  'results.card.pages': 'Research Pages',
+  'results.card.matrix': 'Integrated Matrix',
   'results.perDay': '{amount} / day',
 
   'footer.notCountedLabel': 'Not included',
@@ -117,6 +131,7 @@ export const en = {
     '{label} (not time-critical): 1× each of Agony Infusion +13/+14/+15/+16, 6× +11 Agony Infusion for the prerequisites, as well as Stabilizing Matrix & gold for crafting the Integrated Fractal Matrix.',
   'footer.conversion':
     'The Pristine → Relic exchange runs through the vendor {vendor}: 1 Pristine Fractal Relic buys a “Bag of Fractal Relics” containing 15 Fractal Relic. There is no exchange in the other direction (Relic → Pristine) in the game, so it is not offered here.',
+  'footer.attunementLink': 'Mist Attunement 1–4',
   'footer.sources':
     'Numbers are based on the costs of {attunement} and the drop sources of {pristine}, {pages} and {relic} (GW2 wiki). Activity values are editable.',
 } as const

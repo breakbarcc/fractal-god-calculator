@@ -37,10 +37,10 @@ export function Footer() {
         <Trans
           text={t('footer.sources')}
           slots={{
-            attunement: <WikiLink page="Mist_Attunement_4">Mist Attunement 1–4</WikiLink>,
-            pristine: <WikiLink page="Pristine_Fractal_Relic">Pristine Fractal Relic</WikiLink>,
-            pages: <WikiLink page="Fractal_Research_Page">Fractal Research Page</WikiLink>,
-            relic: <WikiLink page="Fractal_Relic">Fractal Relic</WikiLink>,
+            attunement: <WikiLink page="Mist_Attunement_4">{t('footer.attunementLink')}</WikiLink>,
+            pristine: <WikiLink page="Pristine_Fractal_Relic">{t('item.pristine')}</WikiLink>,
+            pages: <WikiLink page="Fractal_Research_Page">{t('item.page')}</WikiLink>,
+            relic: <WikiLink page="Fractal_Relic">{t('item.relic')}</WikiLink>,
           }}
         />
       </p>

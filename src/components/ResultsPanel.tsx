@@ -4,11 +4,11 @@ import { selectClass } from '../styles'
 import { ResourceCard } from './ResourceCard'
 import type { FractalCalculator } from '../hooks/useFractalCalculator'
 
-const BOTTLENECK_LABELS: Record<string, string> = {
-  relic: 'Fractal Relic',
-  pristine: 'Pristine Fractal Relic',
-  pages: 'Fractal Research Pages',
-}
+const BOTTLENECK_LABELS = {
+  relic: 'item.relic',
+  pristine: 'item.pristine',
+  pages: 'item.pages',
+} as const
 
 function pct(remaining: number, total: number): number {
   return total > 0 ? Math.min(100, (1 - remaining / total) * 100) : 100
@@ -79,7 +79,7 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
             </div>
             {Number.isFinite(r.daysNeeded) && r.daysNeeded > 0 && r.bottleneck && (
               <div className="mt-1.5 text-[12.5px] text-warn">
-                {t('results.bottleneck', { name: BOTTLENECK_LABELS[r.bottleneck] })}
+                {t('results.bottleneck', { name: t(BOTTLENECK_LABELS[r.bottleneck]) })}
               </div>
             )}
           </>
@@ -88,7 +88,7 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
 
       <div className="grid grid-cols-2 gap-3.5 min-[820px]:grid-cols-4">
         <ResourceCard
-          name="Fractal Relic"
+          name={t('results.card.relic')}
           dotClass="bg-relic"
           value={fmt(r.remRelic)}
           sub={t('results.perDay', { amount: fmt(r.relicPerDay) })}
@@ -96,7 +96,7 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
           fillPct={pct(r.remRelic, r.totalRelicBase + r.totalIFMBase * IFM_CRAFT_RELIC)}
         />
         <ResourceCard
-          name="Pristine Relic"
+          name={t('results.card.pristine')}
           dotClass="bg-pristine"
           value={fmt(r.remPristine)}
           sub={t('results.perDay', { amount: fmt(r.pristinePerDay) })}
@@ -104,7 +104,7 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
           fillPct={pct(r.remPristine, r.totalPristineBase)}
         />
         <ResourceCard
-          name="Research Pages"
+          name={t('results.card.pages')}
           dotClass="bg-pages"
           value={fmt(r.remPages)}
           sub={t('results.perDay', { amount: fmt(r.pagesPerDay) })}
@@ -112,7 +112,7 @@ export function ResultsPanel({ calc }: Readonly<{ calc: FractalCalculator }>) {
           fillPct={pct(r.remPages, r.totalPagesBase)}
         />
         <ResourceCard
-          name="Integrated Matrix"
+          name={t('results.card.matrix')}
           dotClass="bg-ifm"
           value={fmt(r.remIFM)}
           sub={t('results.perDay', { amount: fmt(r.ifmPerDay) })}

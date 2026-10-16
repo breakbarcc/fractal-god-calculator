@@ -11,7 +11,17 @@ export const de: Record<MessageKey, string> = {
   'meta.noscript': 'Der Fractal God Rechner benötigt JavaScript, um deine Tage bis zum Titel zu berechnen.',
   'meta.ogTitle': 'Fractal God Rechner für Guild Wars 2',
   'meta.ogDescription':
-    'Wie viele Tage bis zum Titel „Fractal God“? Rechner für Fractal Relics, Pristine Relics, Research Pages und Mist Attunement 1–4.',
+    'Wie viele Tage bis zum Titel „Fractal God“? Rechner für Fraktal-Relikte, Makellose Fraktal-Relikte, Forschungsseiten und Nebel-Einstimmung 1–4.',
+
+  'item.relic': 'Fraktal-Relikt',
+  'item.pristine': 'Makelloses Fraktal-Relikt',
+  'item.page': 'Fraktal-Forschungsseite',
+  'item.pages': 'Fraktal-Forschungsseiten',
+  'item.matrix': 'Integrierte Fraktal-Matrix',
+  'unit.relic': 'Relikt',
+  'unit.pristine': 'Makellos',
+  'unit.ifm': 'IFM',
+  'unit.page': 'Seite',
 
   'language.label': 'Sprache',
 
@@ -28,9 +38,9 @@ export const de: Record<MessageKey, string> = {
   'inventory.levelDone': 'Stufe {level} — {title} (fertig!)',
   'inventory.prereqLabel': 'Grundvoraussetzungen erfüllt?',
   'inventory.prereqYes': 'Ja — Empowerment 2 / Retribution 2 / Impedance 2 vorhanden',
-  'inventory.prereqNo': 'Nein — noch nicht (kostet zusätzlich {relic} Relic + {ifm} Matrix)',
-  'inventory.loosePages': 'Lose Fractal Research Pages',
-  'inventory.journals': 'Fractal Journals (= {pages} Pages)',
+  'inventory.prereqNo': 'Nein — noch nicht (kostet zusätzlich {relic} Relikte + {ifm} Matrizen)',
+  'inventory.loosePages': 'Lose Fraktal-Forschungsseiten',
+  'inventory.journals': 'Fraktal-Handbücher (= {pages} Seiten)',
 
   'api.keyLabel': 'GW2-API-Schlüssel',
   'api.keyHint': '(nur „account, wallet, inventories, progression, unlocks“ nötig)',
@@ -38,8 +48,8 @@ export const de: Record<MessageKey, string> = {
   'api.loading': '⇩ Lädt …',
   'api.needKey': 'Bitte zuerst einen API-Schlüssel eintragen.',
   'api.connecting': 'Verbinde mit api.guildwars2.com …',
-  'api.relicLoaded': '✓ Fractal Relic geladen',
-  'api.pristineLoaded': '✓ Pristine Fractal Relic geladen',
+  'api.relicLoaded': '✓ Fraktal-Relikte geladen',
+  'api.pristineLoaded': '✓ Makellose Fraktal-Relikte geladen',
   'api.warn': '⚠ {source}: {message}',
   'api.source.wallet': 'Wallet',
   'api.source.materials': 'Materiallager',
@@ -47,7 +57,7 @@ export const de: Record<MessageKey, string> = {
   'api.source.sharedInventory': 'Geteilte Inventarplätze',
   'api.source.progression': 'Progression',
   'api.source.titles': 'Titel',
-  'api.itemsSummed': '✓ Research Pages / Journals / Matrix aus Bank + Materiallager + geteilten Plätzen summiert',
+  'api.itemsSummed': '✓ Forschungsseiten / Handbücher / Matrizen aus Bank + Materiallager + geteilten Plätzen summiert',
   'api.bagsNote': '  (Taschen auf einzelnen Charakteren werden nicht mitgezählt)',
   'api.prereqDetected': '✓ Grundvoraussetzungen erkannt: {state}',
   'api.prereqMet': 'erfüllt',
@@ -63,10 +73,10 @@ export const de: Record<MessageKey, string> = {
   'routine.days.other': '{count} Tage/Woche',
   'routine.days.daily': '{count} Tage/Woche (täglich)',
   'routine.extraRuns': 'Zusätzliche freie Fraktal-Läufe / Tag',
-  'routine.scaleOption': 'Skala {from}–{to} ({relic} Relic)',
-  'routine.cacheLabel': "Fractal Fighter's Cache (wöchentlich)",
+  'routine.scaleOption': 'Skala {from}–{to} ({relic} Relikte)',
+  'routine.cacheLabel': 'Fraktal-Kämpfer-Lager (wöchentlich)',
   'routine.cacheNone': 'Keine',
-  'routine.cacheTier': 'Tier-{tier}-Zugang — {caches}× Cache/Woche ({pages} Pages)',
+  'routine.cacheTier': 'Tier-{tier}-Zugang — {caches}× Lager/Woche ({pages} Seiten)',
 
   'activity.tierDailies': 'Tägliche Fraktale (T1 - T4)',
   'activity.recommended': 'Empfohlene Fraktale (T1 - T3)',
@@ -93,28 +103,34 @@ export const de: Record<MessageKey, string> = {
   'ladder.progressStep': '{pct}% gesammelt (Stufe {step} von 4)',
 
   'results.title': 'Ergebnis',
-  'results.autoConvertLabel': 'Pristine-Überschuss automatisch in Fractal Relic tauschen',
-  'results.autoConvertYes': 'Ja — 1 Pristine = {rate} Relic (via BUY-2046 PFR)',
+  'results.autoConvertLabel': 'Überschuss an Makellosen Fraktal-Relikten automatisch in Fraktal-Relikte tauschen',
+  'results.autoConvertYes': 'Ja — 1 Makelloses Fraktal-Relikt = {rate} Relikte (via BUY-2046 PFR)',
   'results.autoConvertNo': 'Nein — beide getrennt sammeln',
-  'results.convert': '↻ {pristine} überschüssige Pristine Relic werden in {relic} Fractal Relic getauscht.',
+  'results.convert':
+    '↻ {pristine} überschüssige Makellose Fraktal-Relikte werden in {relic} Fraktal-Relikte getauscht.',
   'results.convertSaves.one':
-    '↻ {pristine} überschüssige Pristine Relic werden in {relic} Fractal Relic getauscht — spart {days} Tag.',
+    '↻ {pristine} überschüssige Makellose Fraktal-Relikte werden in {relic} Fraktal-Relikte getauscht — spart {days} Tag.',
   'results.convertSaves.other':
-    '↻ {pristine} überschüssige Pristine Relic werden in {relic} Fractal Relic getauscht — spart {days} Tage.',
+    '↻ {pristine} überschüssige Makellose Fraktal-Relikte werden in {relic} Fraktal-Relikte getauscht — spart {days} Tage.',
   'results.potions':
-    '🧪 {amount} Fractal Relic/Tag aus Mist-Potions der Empfohlenen Fraktale (getauscht beim Mist Potion Brewer) bereits eingerechnet.',
+    '🧪 {amount} Fraktal-Relikte/Tag aus den Nebeltränken der Empfohlenen Fraktale (gegen Fraktal-Relikte getauscht) bereits eingerechnet.',
   'results.daysLabel': 'Tage bis zum Titel',
   'results.alreadyGod': 'Du bist bereits Fractal God!',
   'results.finishDate': 'Voraussichtlich fertig am {date}',
   'results.never': 'Mit der aktuellen Routine wird mind. eine Ressource nie erreicht.',
   'results.bottleneck': 'Flaschenhals: {name}',
+  'results.card.relic': 'Fraktal-Relikt',
+  'results.card.pristine': 'Makelloses Relikt',
+  'results.card.pages': 'Forschungsseiten',
+  'results.card.matrix': 'Integrierte Matrix',
   'results.perDay': '{amount} / Tag',
 
   'footer.notCountedLabel': 'Nicht mitgerechnet',
   'footer.notCounted':
-    '{label} (nicht zeitkritisch): je 1× Agony-Infusion +13/+14/+15/+16, 6× +11 Agony-Infusion für die Voraussetzungen, sowie Stabilizing Matrix & Gold fürs Craften der Integrated Fractal Matrix.',
+    '{label} (nicht zeitkritisch): je 1× Qual-Infusion +13/+14/+15/+16, 6× Qual-Infusion +11 für die Voraussetzungen, sowie Stabilisierende Matrix & Gold fürs Craften der Integrierten Fraktal-Matrix.',
   'footer.conversion':
-    'Die Umwandlung Pristine → Relic läuft über den Händler {vendor}: 1 Pristine Fractal Relic kauft einen „Bag of Fractal Relics“, der 15 Fractal Relic enthält. Eine Umwandlung in die andere Richtung (Relic → Pristine) gibt es im Spiel nicht, daher wird sie hier nicht angeboten.',
+    'Die Umwandlung Makelloses Fraktal-Relikt → Fraktal-Relikt läuft über den Händler {vendor}: 1 Makelloses Fraktal-Relikt kauft einen „Beutel mit Fraktal-Relikten“, der 15 Fraktal-Relikte enthält. Eine Umwandlung in die andere Richtung gibt es im Spiel nicht, daher wird sie hier nicht angeboten.',
+  'footer.attunementLink': 'Nebel-Einstimmung 1–4',
   'footer.sources':
     'Zahlen basieren auf den Kosten von {attunement} und den Drop-Quellen von {pristine}, {pages} und {relic} (GW2-Wiki). Aktivitäts-Werte sind editierbar.',
 }

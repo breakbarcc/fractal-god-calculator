@@ -38,14 +38,14 @@ export function ActivityToggle({
       <div className="mt-2.5 grid grid-cols-4 gap-2">
         <YieldStat
           icon="/icons/fractal-relic.png"
-          alt="Fractal Relic"
+          alt={t('item.relic')}
           value={calculateActivityRelic(activity, attunementRank)}
         />
-        <YieldStat icon="/icons/pristine-fractal-relic.png" alt="Pristine Fractal Relic" value={activity.pristine} />
-        <YieldStat icon="/icons/fractal-research-page.png" alt="Fractal Research Page" value={activity.pages} />
+        <YieldStat icon="/icons/pristine-fractal-relic.png" alt={t('item.pristine')} value={activity.pristine} />
+        <YieldStat icon="/icons/fractal-research-page.png" alt={t('item.page')} value={activity.pages} />
         <YieldStat
           icon="/icons/integrated-fractal-matrix.png"
-          alt="Integrated Fractal Matrix"
+          alt={t('item.matrix')}
           value={activity.integrated_fractal}
         />
       </div>

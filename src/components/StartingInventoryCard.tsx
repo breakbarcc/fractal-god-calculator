@@ -4,12 +4,12 @@ import { cardClass, inputClass, selectClass } from '../styles'
 import { ApiKeyBox } from './ApiKeyBox'
 import type { FractalCalculator } from '../hooks/useFractalCalculator'
 
-const UNIT_TAGS: Record<string, { className: string; text: string }> = {
-  relic: { className: 'bg-relic/18 text-relic', text: 'Relic' },
-  pristine: { className: 'bg-pristine/18 text-pristine', text: 'Pristine' },
-  ifm: { className: 'bg-ifm/18 text-ifm', text: 'IFM' },
-  pages: { className: 'bg-pages/18 text-pages', text: 'Page' },
-}
+const UNIT_TAGS = {
+  relic: { className: 'bg-relic/18 text-relic', text: 'unit.relic' },
+  pristine: { className: 'bg-pristine/18 text-pristine', text: 'unit.pristine' },
+  ifm: { className: 'bg-ifm/18 text-ifm', text: 'unit.ifm' },
+  pages: { className: 'bg-pages/18 text-pages', text: 'unit.page' },
+} as const
 
 function StockRow({
   label,
@@ -22,6 +22,7 @@ function StockRow({
   value: number
   onChange: (value: number) => void
 }>) {
+  const { t } = useI18n()
   return (
     <div className="mb-2.5 grid grid-cols-[1fr_100px] items-center gap-2.5">
       <label className="text-[13px] text-text-dim">
@@ -30,7 +31,7 @@ function StockRow({
           <span
             className={`ml-1.5 rounded-[5px] px-1.5 py-px font-mono text-[10px] opacity-85 ${UNIT_TAGS[unit].className}`}
           >
-            {UNIT_TAGS[unit].text}
+            {t(UNIT_TAGS[unit].text)}
           </span>
         )}
       </label>
@@ -89,14 +90,9 @@ export function StartingInventoryCard({ calc }: Readonly<{ calc: FractalCalculat
 
       <div className="my-4 h-px bg-line" />
 
-      <StockRow label="Fractal Relic" unit="relic" value={calc.curRelic} onChange={calc.setCurRelic} />
-      <StockRow
-        label="Pristine Fractal Relic"
-        unit="pristine"
-        value={calc.curPristine}
-        onChange={calc.setCurPristine}
-      />
-      <StockRow label="Integrated Fractal Matrix" unit="ifm" value={calc.curIFM} onChange={calc.setCurIFM} />
+      <StockRow label={t('item.relic')} unit="relic" value={calc.curRelic} onChange={calc.setCurRelic} />
+      <StockRow label={t('item.pristine')} unit="pristine" value={calc.curPristine} onChange={calc.setCurPristine} />
+      <StockRow label={t('item.matrix')} unit="ifm" value={calc.curIFM} onChange={calc.setCurIFM} />
       <StockRow label={t('inventory.loosePages')} unit="pages" value={calc.curPages} onChange={calc.setCurPages} />
       <StockRow
         label={t('inventory.journals', { pages: PAGES_PER_JOURNAL })}
