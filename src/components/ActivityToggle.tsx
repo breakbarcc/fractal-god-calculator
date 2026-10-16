@@ -53,17 +53,17 @@ export function ActivityToggle({
         <div className="mt-2 grid grid-cols-3 gap-2">
           <YieldStat
             icon="/icons/mist-potion-defensive.png"
-            alt="Large Mist Defensive Potion"
+            alt={t('potion.defensive')}
             value={activity.potionDefensive}
           />
           <YieldStat
             icon="/icons/mist-potion-mobility.png"
-            alt="Large Mist Mobility Potion"
+            alt={t('potion.mobility')}
             value={activity.potionMobility}
           />
           <YieldStat
             icon="/icons/mist-potion-offensive.png"
-            alt="Large Mist Offensive Potion"
+            alt={t('potion.offensive')}
             value={activity.potionOffensive}
           />
         </div>

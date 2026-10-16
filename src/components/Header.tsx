@@ -7,7 +7,7 @@ export function Header() {
     <header className="relative mb-11 text-center">
       <LanguageSwitcher />
       <div className="mb-3.5 font-mono text-xs tracking-[0.22em] text-arcane-bright/80 uppercase">
-        Fractals of the Mists
+        {t('header.eyebrow')}
       </div>
       <h1 className="mb-3 bg-[linear-gradient(135deg,#fff,var(--color-arcane-bright)_60%,var(--color-relic))] bg-clip-text font-cinzel text-[clamp(30px,5vw,46px)] font-bold text-transparent">
         {t('header.title')}

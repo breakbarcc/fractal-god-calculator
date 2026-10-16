@@ -15,6 +15,7 @@ export const de: Record<MessageKey, string> = {
 
   'language.label': 'Sprache',
 
+  'header.eyebrow': 'Fraktale der Nebel',
   'header.title': 'Fractal God Rechner',
   'header.intro':
     'Berechnet, wie viele Tage du bei deiner aktuellen Routine noch bis zum Titel „Fractal God“ brauchst — basierend auf den echten Kosten von Nebel-Einstimmung 1–4.',

@@ -16,6 +16,7 @@ export const en = {
 
   'language.label': 'Language',
 
+  'header.eyebrow': 'Fractals of the Mists',
   'header.title': 'Fractal God Calculator',
   'header.intro':
     'Calculates how many days you still need for the “Fractal God” title with your current routine — based on the real costs of Mist Attunement 1–4.',
