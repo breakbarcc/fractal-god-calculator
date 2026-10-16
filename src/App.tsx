@@ -5,8 +5,9 @@ import { LadderCard } from './components/LadderCard'
 import { ResultsPanel } from './components/ResultsPanel'
 import { StartingInventoryCard } from './components/StartingInventoryCard'
 import { useFractalCalculator } from './hooks/useFractalCalculator'
+import { I18nProvider } from './i18n/I18nProvider'
 
-function App() {
+function AppContent() {
   const calc = useFractalCalculator()
 
   return (
@@ -24,6 +25,14 @@ function App() {
 
       <Footer />
     </div>
+  )
+}
+
+function App() {
+  return (
+    <I18nProvider>
+      <AppContent />
+    </I18nProvider>
   )
 }
 
