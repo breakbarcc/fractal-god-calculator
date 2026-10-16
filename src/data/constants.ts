@@ -31,9 +31,10 @@ export const MIST_POTION_RELIC = {
   offensive: 6 * HANDFUL_RELIC, // 18
 }
 
-export const ATTUNEMENT_TITLES = ['Fractal Savant', 'Fractal Prodigy', 'Fractal Champion', 'Fractal God']
+// Mist Attunement levels; the (translated) title of each is the message `attunement.title.<level>`.
+export const ATTUNEMENT_LEVELS = [1, 2, 3, 4] as const
 
-// Title IDs from /v2/titles, in the same order as ATTUNEMENT_TITLES (index i = level i+1).
+// Title IDs from /v2/titles, in the same order as ATTUNEMENT_LEVELS (index i = level i+1).
 // Fixed and locale-independent — unlike title names, which the GW2 API localizes
 // based on the request's Accept-Language.
 export const ATTUNEMENT_TITLE_IDS = [299, 297, 296, 298]

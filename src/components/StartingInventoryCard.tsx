@@ -1,4 +1,4 @@
-import { ATTUNEMENT_TITLES, PAGES_PER_JOURNAL, PREREQ } from '../data/constants'
+import { ATTUNEMENT_LEVELS, PAGES_PER_JOURNAL, PREREQ } from '../data/constants'
 import { useI18n } from '../i18n/context'
 import { cardClass, inputClass, selectClass } from '../styles'
 import { ApiKeyBox } from './ApiKeyBox'
@@ -62,9 +62,12 @@ export function StartingInventoryCard({ calc }: Readonly<{ calc: FractalCalculat
         className={`${selectClass} mb-1`}
       >
         <option value={0}>{t('inventory.levelNone')}</option>
-        {ATTUNEMENT_TITLES.map((title, i) => (
-          <option key={title} value={i + 1}>
-            {t(i + 1 === ATTUNEMENT_TITLES.length ? 'inventory.levelDone' : 'inventory.level', { level: i + 1, title })}
+        {ATTUNEMENT_LEVELS.map((level) => (
+          <option key={level} value={level}>
+            {t(level === ATTUNEMENT_LEVELS.length ? 'inventory.levelDone' : 'inventory.level', {
+              level,
+              title: t(`attunement.title.${level}`),
+            })}
           </option>
         ))}
       </select>

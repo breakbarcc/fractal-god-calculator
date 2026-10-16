@@ -3,11 +3,11 @@ import type { MessageKey } from './en'
 export const de: Record<MessageKey, string> = {
   'meta.title': 'Fractal God Rechner für Guild Wars 2 – Tage bis zum Titel',
   'meta.description':
-    'Kostenloser Guild Wars 2 Rechner: Berechne, wie viele Tage du mit deiner Routine bis zum Titel „Fractal God“ (Mist Attunement 4) brauchst – inkl. GW2-API-Import.',
+    'Kostenloser Guild Wars 2 Rechner: Berechne, wie viele Tage du mit deiner Routine bis zum Titel „Fractal God“ (Nebel-Einstimmung 4) brauchst – inkl. GW2-API-Import.',
   'meta.siteName': 'Fractal God Rechner',
   'meta.imageAlt': 'Fractal God Rechner – Logo mit Raute und Titel',
   'meta.appDescription':
-    'Berechnet, wie viele Tage du in Guild Wars 2 bei deiner aktuellen Routine bis zum Titel „Fractal God“ (Mist Attunement 4) brauchst.',
+    'Berechnet, wie viele Tage du in Guild Wars 2 bei deiner aktuellen Routine bis zum Titel „Fractal God“ (Nebel-Einstimmung 4) brauchst.',
   'meta.noscript': 'Der Fractal God Rechner benötigt JavaScript, um deine Tage bis zum Titel zu berechnen.',
   'meta.ogTitle': 'Fractal God Rechner für Guild Wars 2',
   'meta.ogDescription':
@@ -17,11 +17,11 @@ export const de: Record<MessageKey, string> = {
 
   'header.title': 'Fractal God Rechner',
   'header.intro':
-    'Berechnet, wie viele Tage du bei deiner aktuellen Routine noch bis zum Titel „Fractal God“ brauchst — basierend auf den echten Kosten von Mist Attunement 1–4.',
+    'Berechnet, wie viele Tage du bei deiner aktuellen Routine noch bis zum Titel „Fractal God“ brauchst — basierend auf den echten Kosten von Nebel-Einstimmung 1–4.',
 
   'inventory.title': 'Startbestand',
   'inventory.intro': 'Trag ein, was du gerade im Portemonnaie / Inventar hast — oder lade es unten direkt per GW2-API.',
-  'inventory.levelLabel': 'Bereits gekaufte Mist-Attunement-Stufe',
+  'inventory.levelLabel': 'Bereits gekaufte Stufe der Nebel-Einstimmung',
   'inventory.levelNone': 'Stufe 0 — noch nichts gekauft',
   'inventory.level': 'Stufe {level} — {title}',
   'inventory.levelDone': 'Stufe {level} — {title} (fertig!)',
@@ -51,7 +51,7 @@ export const de: Record<MessageKey, string> = {
   'api.prereqDetected': '✓ Grundvoraussetzungen erkannt: {state}',
   'api.prereqMet': 'erfüllt',
   'api.prereqNotMet': 'noch nicht vollständig',
-  'api.levelDetected': '✓ Mist-Attunement-Stufe erkannt: {level} von 4',
+  'api.levelDetected': '✓ Stufe der Nebel-Einstimmung erkannt: {level} von 4',
   'api.done': 'Fertig.',
 
   'routine.title': 'Tägliche Routine',
@@ -69,15 +69,25 @@ export const de: Record<MessageKey, string> = {
 
   'activity.tierDailies': 'Tägliche Fraktale (T1 - T4)',
   'activity.recommended': 'Empfohlene Fraktale (T1 - T3)',
-  'activity.cmKinfall': 'CM: Kinfall',
-  'activity.cmNightmare': 'CM: Nightmare',
-  'activity.cmShattered': 'CM: Shattered Observatory',
-  'activity.cmSunqua': 'CM: Sunqua Peak',
-  'activity.cmSilentSurf': 'CM: Silent Surf',
-  'activity.cmLonelyTower': 'CM: Lonely Tower',
-  'activity.cmSolitaryThrone': 'CM: Solitary Throne',
+  'activity.cmKinfall': 'CM: Sippenfall',
+  'activity.cmNightmare': 'CM: Albtraum',
+  'activity.cmShattered': 'CM: Zerschmettertes Observatorium',
+  'activity.cmSunqua': 'CM: Sunqua-Gipfel',
+  'activity.cmSilentSurf': 'CM: Stumme Brandung',
+  'activity.cmLonelyTower': 'CM: Einsamer Turm',
+  'activity.cmSolitaryThrone': 'CM: Einsamer Thron',
+
+  'attunement.title.1': 'Fraktal-Denker',
+  'attunement.title.2': 'Fraktal-Wunderkind',
+  'attunement.title.3': 'Fraktal-Champion',
+  'attunement.title.4': 'Fraktal-Gott',
+
+  'potion.defensive': 'Großer Nebel-Defensivtrank',
+  'potion.mobility': 'Großer Nebel-Mobilitätstrank',
+  'potion.offensive': 'Großer Nebel-Offensivtrank',
 
   'ladder.title': 'Weg zum Fractal God',
+  'ladder.attunement': 'NEBEL-EINSTIMMUNG {level}',
   'ladder.progress': '{pct}% gesammelt',
   'ladder.progressStep': '{pct}% gesammelt (Stufe {step} von 4)',
 

@@ -79,7 +79,17 @@ export const en = {
   'activity.cmLonelyTower': 'CM: Lonely Tower',
   'activity.cmSolitaryThrone': 'CM: Solitary Throne',
 
+  'attunement.title.1': 'Fractal Savant',
+  'attunement.title.2': 'Fractal Prodigy',
+  'attunement.title.3': 'Fractal Champion',
+  'attunement.title.4': 'Fractal God',
+
+  'potion.defensive': 'Large Mist Defensive Potion',
+  'potion.mobility': 'Large Mist Mobility Potion',
+  'potion.offensive': 'Large Mist Offensive Potion',
+
   'ladder.title': 'Path to Fractal God',
+  'ladder.attunement': 'MIST ATTUNEMENT {level}',
   'ladder.progress': '{pct}% collected',
   'ladder.progressStep': '{pct}% collected (level {step} of 4)',
 

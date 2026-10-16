@@ -1,12 +1,11 @@
-import { ATTUNEMENT_TITLES } from '../data/constants'
+import { ATTUNEMENT_LEVELS } from '../data/constants'
+import { useI18n } from '../i18n/context'
 
 const CX = [120, 340, 560, 780]
 const CY = 60
 
-export function AttunementLadder({
-  currentLevel,
-  overallPct,
-}: Readonly<{ currentLevel: number; overallPct: number }>) {
+export function AttunementLadder({ currentLevel, overallPct }: Readonly<{ currentLevel: number; overallPct: number }>) {
+  const { t } = useI18n()
   const progress = Math.max(0, Math.min(100, overallPct)) / 100
   const progressX = 120 + progress * 660
 
@@ -30,8 +29,7 @@ export function AttunementLadder({
         className="transition-[x2] duration-[400ms]"
       />
 
-      {ATTUNEMENT_TITLES.map((title, i) => {
-        const lvl = i + 1
+      {ATTUNEMENT_LEVELS.map((lvl, i) => {
         const done = lvl <= currentLevel
         const current = lvl === currentLevel + 1
         const fill = done ? 'url(#gradLine)' : current ? '#1c1830' : '#141026'
@@ -40,7 +38,7 @@ export function AttunementLadder({
         const cx = CX[i]
 
         return (
-          <g key={title}>
+          <g key={lvl}>
             <circle
               cx={cx}
               cy={CY}
@@ -61,10 +59,10 @@ export function AttunementLadder({
               />
             )}
             <text x={cx} y={CY + 34} textAnchor="middle" className="fill-text font-cinzel text-[13px]">
-              {title}
+              {t(`attunement.title.${lvl}`)}
             </text>
             <text x={cx} y={CY + 50} textAnchor="middle" className="fill-text-faint font-mono text-[10px]">
-              MIST ATTUNEMENT {lvl}
+              {t('ladder.attunement', { level: lvl })}
             </text>
           </g>
         )
