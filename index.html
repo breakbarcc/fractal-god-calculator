@@ -2,13 +2,60 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Fractal God Rechner für Guild Wars 2 – Tage bis zum Titel</title>
     <meta
       name="description"
-      content="Berechnet, wie viele Tage du bei deiner aktuellen Routine noch bis zum Titel „Fractal God“ in Guild Wars 2 brauchst."
+      content="Kostenloser Guild Wars 2 Rechner: Berechne, wie viele Tage du mit deiner Routine bis zum Titel „Fractal God“ (Mist Attunement 4) brauchst – inkl. GW2-API-Import."
     />
-    <title>Fractal God Rechner — GW2</title>
+    <link rel="canonical" href="%SITE_URL%/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#0e0c1b" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fractal God Rechner" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content="Fractal God Rechner für Guild Wars 2" />
+    <meta
+      property="og:description"
+      content="Wie viele Tage bis zum Titel „Fractal God“? Rechner für Fractal Relics, Pristine Relics, Research Pages und Mist Attunement 1–4."
+    />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fractal God Calculator – Logo mit Raute und Titel" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fractal God Rechner für Guild Wars 2" />
+    <meta
+      name="twitter:description"
+      content="Wie viele Tage bis zum Titel „Fractal God“? Rechner für Fractal Relics, Pristine Relics, Research Pages und Mist Attunement 1–4."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Fractal God Rechner",
+        "alternateName": "Fractal God Calculator",
+        "url": "%SITE_URL%/",
+        "description": "Berechnet, wie viele Tage du in Guild Wars 2 bei deiner aktuellen Routine bis zum Titel „Fractal God“ (Mist Attunement 4) brauchst.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "de",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+        "image": "%SITE_URL%/og-image.png"
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +64,8 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <noscript>Der Fractal God Rechner benötigt JavaScript, um deine Tage bis zum Titel zu berechnen.</noscript>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
