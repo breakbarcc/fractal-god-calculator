@@ -1,4 +1,5 @@
-import { ATTUNEMENT_LEVEL_OPTIONS } from '../data/constants'
+import { ATTUNEMENT_TITLES, PAGES_PER_JOURNAL, PREREQ } from '../data/constants'
+import { useI18n } from '../i18n/context'
 import { cardClass, inputClass, selectClass } from '../styles'
 import { ApiKeyBox } from './ApiKeyBox'
 import type { FractalCalculator } from '../hooks/useFractalCalculator'
@@ -45,15 +46,14 @@ function StockRow({
 }
 
 export function StartingInventoryCard({ calc }: Readonly<{ calc: FractalCalculator }>) {
+  const { t, fmt } = useI18n()
   return (
     <div className={cardClass}>
-      <h2 className="mb-1 flex items-center gap-2 font-cinzel text-base text-text">📦 Startbestand</h2>
-      <p className="mb-4.5 text-[12.5px] leading-[1.5] text-text-faint">
-        Trag ein, was du gerade im Portemonnaie / Inventar hast — oder lade es unten direkt per GW2-API.
-      </p>
+      <h2 className="mb-1 flex items-center gap-2 font-cinzel text-base text-text">📦 {t('inventory.title')}</h2>
+      <p className="mb-4.5 text-[12.5px] leading-[1.5] text-text-faint">{t('inventory.intro')}</p>
 
       <label htmlFor={'mist-attunement-level'} className="text-[13px] text-text-dim">
-        Bereits gekaufte Mist-Attunement-Stufe
+        {t('inventory.levelLabel')}
       </label>
       <select
         id={'mist-attunement-level'}
@@ -61,16 +61,17 @@ export function StartingInventoryCard({ calc }: Readonly<{ calc: FractalCalculat
         onChange={(e) => calc.setAttLevel(Number.parseInt(e.target.value))}
         className={`${selectClass} mb-1`}
       >
-        {ATTUNEMENT_LEVEL_OPTIONS.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
+        <option value={0}>{t('inventory.levelNone')}</option>
+        {ATTUNEMENT_TITLES.map((title, i) => (
+          <option key={title} value={i + 1}>
+            {t(i + 1 === ATTUNEMENT_TITLES.length ? 'inventory.levelDone' : 'inventory.level', { level: i + 1, title })}
           </option>
         ))}
       </select>
 
       <div className="mt-3.5 mb-1">
         <label htmlFor={'requirements'} className="text-[13px] text-text-dim">
-          Grundvoraussetzungen erfüllt?
+          {t('inventory.prereqLabel')}
         </label>
         <select
           id={'requirements'}
@@ -78,8 +79,8 @@ export function StartingInventoryCard({ calc }: Readonly<{ calc: FractalCalculat
           onChange={(e) => calc.setPrereqDone(e.target.value === '1')}
           className={selectClass}
         >
-          <option value="1">Ja — Empowerment 2 / Retribution 2 / Impedance 2 vorhanden</option>
-          <option value="0">Nein — noch nicht (kostet zusätzlich 5.750 Relic + 35 Matrix)</option>
+          <option value="1">{t('inventory.prereqYes')}</option>
+          <option value="0">{t('inventory.prereqNo', { relic: fmt(PREREQ.relic), ifm: fmt(PREREQ.ifm) })}</option>
         </select>
       </div>
 
@@ -93,8 +94,12 @@ export function StartingInventoryCard({ calc }: Readonly<{ calc: FractalCalculat
         onChange={calc.setCurPristine}
       />
       <StockRow label="Integrated Fractal Matrix" unit="ifm" value={calc.curIFM} onChange={calc.setCurIFM} />
-      <StockRow label="Lose Fractal Research Pages" unit="pages" value={calc.curPages} onChange={calc.setCurPages} />
-      <StockRow label="Fractal Journals (= 28 Pages)" value={calc.curJournals} onChange={calc.setCurJournals} />
+      <StockRow label={t('inventory.loosePages')} unit="pages" value={calc.curPages} onChange={calc.setCurPages} />
+      <StockRow
+        label={t('inventory.journals', { pages: PAGES_PER_JOURNAL })}
+        value={calc.curJournals}
+        onChange={calc.setCurJournals}
+      />
 
       <ApiKeyBox apiKey={calc.apiKey} setApiKey={calc.setApiKey} onFetched={calc.applyFetchResult} />
     </div>

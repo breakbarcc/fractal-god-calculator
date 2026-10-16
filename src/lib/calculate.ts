@@ -245,7 +245,7 @@ export function calculate(inputs: CalculatorInputs): CalculatorResults {
   const base = calculateBaseRemaining(needs, inputs)
 
   // Calendar-average rates (scaled down by how many of the 7 days/week are actually played) —
-  // used for the "X / Tag" display and to derive the predicted completion date.
+  // used for the "X / day" display and to derive the predicted completion date.
   const calendarRates = calculateDailyRates(inputs)
   // Session rates (as if every day were a play day) — the number of active fractal-days needed
   // is a property of the routine itself and must not shift just because fewer days/week are

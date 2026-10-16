@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/context'
 import { calculateActivityRelic } from '../lib/activityRelic'
 import type { Activity } from '../types'
 
@@ -19,6 +20,7 @@ export function ActivityToggle({
   attunementRank: number
   onToggle: () => void
 }>) {
+  const { t } = useI18n()
   return (
     <div
       className={`mb-2.5 rounded-xl border p-3 px-3.5 ${activity.on ? 'border-line-strong bg-arcane/6' : 'border-line bg-white/1.5'}`}
@@ -31,7 +33,7 @@ export function ActivityToggle({
             className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full transition-transform ${activity.on ? 'translate-x-3.5 bg-white' : 'bg-text-faint'}`}
           />
         </div>
-        <div className="flex-1 text-[13.5px] font-medium">{activity.label}</div>
+        <div className="flex-1 text-[13.5px] font-medium">{t(`activity.${activity.id}`)}</div>
       </div>
       <div className="mt-2.5 grid grid-cols-4 gap-2">
         <YieldStat

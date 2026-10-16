@@ -1,4 +1,4 @@
-import type { Activity, AttunementTier, SelectOption } from '../types'
+import type { Activity, AttunementTier, ScaleOption, WeeklyCacheOption } from '../types'
 
 export const PAGES_PER_JOURNAL = 28
 export const IFM_CRAFT_RELIC = 15
@@ -38,14 +38,6 @@ export const ATTUNEMENT_TITLES = ['Fractal Savant', 'Fractal Prodigy', 'Fractal 
 // based on the request's Accept-Language.
 export const ATTUNEMENT_TITLE_IDS = [299, 297, 296, 298]
 
-export const ATTUNEMENT_LEVEL_OPTIONS: SelectOption[] = [
-  { value: 0, label: 'Stufe 0 — noch nichts gekauft' },
-  { value: 1, label: 'Stufe 1 — Fractal Savant' },
-  { value: 2, label: 'Stufe 2 — Fractal Prodigy' },
-  { value: 3, label: 'Stufe 3 — Fractal Champion' },
-  { value: 4, label: 'Stufe 4 — Fractal God (fertig!)' },
-]
-
 export const RECOMMENDED_FRACTAL_ROTATION: Record<number, number[]> = {
   1: [2, 37, 53],
   2: [6, 28, 61],
@@ -74,7 +66,8 @@ function getTodaysRecommendedSet(): number {
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const daysSinceReference = Math.round((today.getTime() - ROTATION_REFERENCE_DATE.getTime()) / msPerDay)
-  const offset = (((ROTATION_REFERENCE_SET - 1 + daysSinceReference) % ROTATION_LENGTH) + ROTATION_LENGTH) % ROTATION_LENGTH
+  const offset =
+    (((ROTATION_REFERENCE_SET - 1 + daysSinceReference) % ROTATION_LENGTH) + ROTATION_LENGTH) % ROTATION_LENGTH
   return offset + 1
 }
 
@@ -102,7 +95,6 @@ const RECOMMENDED_SCALE_RELIC_BONUS = todaysRecommendedScales.reduce((sum, scale
 export const DEFAULT_ACTIVITIES: Activity[] = [
   {
     id: 'tierDailies',
-    label: 'Tägliche Fraktale (T1 - T4)',
     on: true,
     relic: 165,
     pristine: 12,
@@ -115,7 +107,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'recommended',
-    label: 'Empfohlene Fraktale (T1 - T3)',
     on: true,
     relic: 57,
     pristine: 3,
@@ -128,7 +119,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmSolitaryThrone',
-    label: 'CM: Solitary Throne',
     on: false,
     relic: 100,
     pristine: 2,
@@ -141,7 +131,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmKinfall',
-    label: 'CM: Kinfall',
     on: true,
     relic: 100,
     pristine: 2,
@@ -154,7 +143,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmNightmare',
-    label: 'CM: Nightmare',
     on: true,
     relic: 140,
     pristine: 2,
@@ -167,7 +155,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmShattered',
-    label: 'CM: Shattered Observatory',
     on: false,
     relic: 140,
     pristine: 2,
@@ -180,7 +167,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmSunqua',
-    label: 'CM: Sunqua Peak',
     on: false,
     relic: 120,
     pristine: 2,
@@ -193,7 +179,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmSilentSurf',
-    label: 'CM: Silent Surf',
     on: false,
     relic: 100,
     pristine: 2,
@@ -206,7 +191,6 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
   {
     id: 'cmLonelyTower',
-    label: 'CM: Lonely Tower',
     on: false,
     relic: 120,
     pristine: 2,
@@ -219,43 +203,36 @@ export const DEFAULT_ACTIVITIES: Activity[] = [
   },
 ]
 
-export const SCALE_OPTIONS: SelectOption[] = [
-  { value: 5, label: 'Skala 1–5 (5 Relic)' },
-  { value: 6, label: 'Skala 6–10 (6 Relic)' },
-  { value: 7, label: 'Skala 11–15 (7 Relic)' },
-  { value: 8, label: 'Skala 16–20 (8 Relic)' },
-  { value: 9, label: 'Skala 21–25 (9 Relic)' },
-  { value: 10, label: 'Skala 26–30 (10 Relic)' },
-  { value: 11, label: 'Skala 31–35 (11 Relic)' },
-  { value: 12, label: 'Skala 36–40 (12 Relic)' },
-  { value: 13, label: 'Skala 41–45 (13 Relic)' },
-  { value: 14, label: 'Skala 46–50 (14 Relic)' },
-  { value: 15, label: 'Skala 51–60 (15 Relic)' },
-  { value: 16, label: 'Skala 61–70 (16 Relic)' },
-  { value: 17, label: 'Skala 71–80 (17 Relic)' },
-  { value: 18, label: 'Skala 81–90 (18 Relic)' },
-  { value: 19, label: 'Skala 91–100 (19 Relic)' },
+// Fractal scale brackets and the Fractal Relic reward per completion in each (value = relic reward).
+export const SCALE_OPTIONS: ScaleOption[] = [
+  { value: 5, from: 1, to: 5 },
+  { value: 6, from: 6, to: 10 },
+  { value: 7, from: 11, to: 15 },
+  { value: 8, from: 16, to: 20 },
+  { value: 9, from: 21, to: 25 },
+  { value: 10, from: 26, to: 30 },
+  { value: 11, from: 31, to: 35 },
+  { value: 12, from: 36, to: 40 },
+  { value: 13, from: 41, to: 45 },
+  { value: 14, from: 46, to: 50 },
+  { value: 15, from: 51, to: 60 },
+  { value: 16, from: 61, to: 70 },
+  { value: 17, from: 71, to: 80 },
+  { value: 18, from: 81, to: 90 },
+  { value: 19, from: 91, to: 100 },
 ]
 
 export const DEFAULT_EXTRA_SCALE = 15
 
-export const DAYS_PER_WEEK_OPTIONS: SelectOption[] = [
-  { value: 0, label: '0 Tage/Woche' },
-  { value: 1, label: '1 Tag/Woche' },
-  { value: 2, label: '2 Tage/Woche' },
-  { value: 3, label: '3 Tage/Woche' },
-  { value: 4, label: '4 Tage/Woche' },
-  { value: 5, label: '5 Tage/Woche' },
-  { value: 6, label: '6 Tage/Woche' },
-  { value: 7, label: '7 Tage/Woche (täglich)' },
-]
+export const DAYS_PER_WEEK_VALUES = [0, 1, 2, 3, 4, 5, 6, 7]
 
 export const DEFAULT_DAYS_PER_WEEK = 7
 
-export const WEEKLY_CACHE_OPTIONS: SelectOption[] = [
-  { value: 0, label: 'Keine' },
-  { value: 12, label: 'Tier-3-Zugang — 6× Cache/Woche (12 Pages)' },
-  { value: 16, label: 'Tier-4-Zugang — 8× Cache/Woche (16 Pages)' },
+// value = Research Pages per week; tier/caches describe the Fractal Fighter's Cache access.
+export const WEEKLY_CACHE_OPTIONS: WeeklyCacheOption[] = [
+  { value: 0 },
+  { value: 12, tier: 3, caches: 6 },
+  { value: 16, tier: 4, caches: 8 },
 ]
 
 // ---------- GW2 API ----------

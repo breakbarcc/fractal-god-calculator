@@ -7,9 +7,19 @@ export interface AttunementTier {
   journals: number
 }
 
+export type ActivityId =
+  | 'tierDailies'
+  | 'recommended'
+  | 'cmKinfall'
+  | 'cmNightmare'
+  | 'cmShattered'
+  | 'cmSunqua'
+  | 'cmSilentSurf'
+  | 'cmLonelyTower'
+  | 'cmSolitaryThrone'
+
 export interface Activity {
-  id: string
-  label: string
+  id: ActivityId
   on: boolean
   relic: number
   pristine: number
@@ -23,9 +33,18 @@ export interface Activity {
   potionOffensive: number
 }
 
-export interface SelectOption {
+export interface ScaleOption {
+  /** Fractal Relic reward per completion in this bracket. */
   value: number
-  label: string
+  from: number
+  to: number
+}
+
+export interface WeeklyCacheOption {
+  /** Research Pages per week. */
+  value: number
+  tier?: number
+  caches?: number
 }
 
 export interface CalculatorResults {
