@@ -10,7 +10,7 @@ A static single-page calculator (German UI) for Guild Wars 2: given a player's c
 
 ```bash
 npm run dev       # start Vite dev server
-npm run build     # tsc -b (typecheck) && vite build -> dist/
+npm run build     # tsc -b && vite build && SSR build + scripts/prerender.mjs -> dist/ (HTML is prerendered for SEO)
 npm run lint      # oxlint
 npm run preview   # preview the production build
 ```
@@ -30,6 +30,10 @@ The app is a single calculation pipeline with a thin UI on top:
 - **`src/styles.ts`** — shared Tailwind class strings (`inputClass`, `selectClass`, `cardClass`) reused across form components instead of repeating utility classes.
 
 Data flow in one line: `constants.ts` (game data) + user input state → `calculate.ts` (pure math) → `CalculatorResults` → rendered by `ResultsPanel`/`LadderCard`/etc.
+
+## SEO / prerendering
+
+`index.html` holds the SEO tags (title, description, canonical, Open Graph, JSON-LD) with a `%SITE_URL%` placeholder; `vite.config.ts` (`seoPlugin`) fills it from `SITE_URL` / `VERCEL_PROJECT_PRODUCTION_URL` and emits `robots.txt` + `sitemap.xml`. After the client build, `src/entry-server.tsx` is built as SSR bundle and `scripts/prerender.mjs` injects `renderToString(<App />)` at `<!--app-html-->` in `dist/index.html`. The client uses `createRoot` (not hydrate), so the server markup is simply replaced. Anything rendered must stay safe without `window` (the hooks already catch it).
 
 ## Styling
 
