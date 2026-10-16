@@ -11,6 +11,7 @@ Rein clientseitig, kein Backend — die App läuft komplett im Browser.
 - [Development](#development)
 - [Verfügbare Scripts](#verfügbare-scripts)
 - [Build](#build)
+- [Sprachen (i18n)](#sprachen-i18n)
 - [SEO](#seo)
 - [Deploy to Vercel](#deploy-to-vercel)
 - [Hinweise zur GW2-API](#hinweise-zur-gw2-api)
@@ -53,9 +54,23 @@ npm run build
 
 Output geht nach `dist/`. Der Build besteht aus vier Schritten: Typecheck, Client-Bundle, SSR-Bundle (`src/entry-server.tsx`) und `scripts/prerender.mjs`, das die gerenderte App in `dist/index.html` einfügt (siehe [SEO](#seo)).
 
+## Sprachen (i18n)
+
+Die Oberfläche gibt es auf Englisch und Deutsch. Die Sprache wird in dieser Reihenfolge bestimmt:
+
+1. `localStorage`-Eintrag `breakbar-language` (z. B. `en`, `de` oder `de-DE`)
+2. Sprache(n) des Browsers (`navigator.languages`)
+3. Fallback: Englisch
+
+- Oben rechts auf der Seite steht ein Sprachwechsler (EN / DE). Er speichert die Wahl in `breakbar-language`.
+- Die Texte liegen in `src/i18n/messages/en.ts` (Quelle der Wahrheit) und `de.ts`. TypeScript meldet fehlende Schlüssel in `de.ts`.
+- Neue Sprache: Datei in `src/i18n/messages/` anlegen, in `translate.ts` und `language.ts` (`SUPPORTED_LANGUAGES`, `INTL_LOCALES`) eintragen.
+- Spielbegriffe (Fractal Relic, Mist Attunement …) bleiben in allen Sprachen englisch.
+- `localStorage` gilt nur pro Origin. Eine Subdomain wie `fractal.breakbar.cc` sieht den Eintrag von `breakbar.cc` nicht.
+
 ## SEO
 
-- **Vorgerendertes HTML:** `npm run build` rendert die App zur Build-Zeit und liefert sie bereits im HTML aus, damit Crawler den Inhalt ohne JavaScript sehen. Im Browser ersetzt `createRoot` den Inhalt danach.
+- **Vorgerendertes HTML:** `npm run build` rendert die App zur Build-Zeit (auf Englisch, der Fallback-Sprache) und liefert sie bereits im HTML aus, damit Crawler den Inhalt ohne JavaScript sehen. Im Browser ersetzt `createRoot` den Inhalt danach in der erkannten Sprache; `<title>`, Meta-Description und Open-Graph-Texte werden dabei mit angepasst.
 - **`index.html`:** `<title>`, Meta-Description, Canonical, `robots`-Meta, Open Graph, Twitter Card und JSON-LD (`WebApplication`).
 - **`robots.txt` und `sitemap.xml`:** werden beim Build vom `seo`-Plugin in `vite.config.ts` erzeugt.
 - **Social-Preview:** `public/og-image.png` (1200×630).

@@ -31,6 +31,10 @@ The app is a single calculation pipeline with a thin UI on top:
 
 Data flow in one line: `constants.ts` (game data) + user input state → `calculate.ts` (pure math) → `CalculatorResults` → rendered by `ResultsPanel`/`LadderCard`/etc.
 
+## i18n
+
+UI is English + German with no library. All user-visible text lives in `src/i18n/messages/en.ts` (source of truth, defines `MessageKey`) and `de.ts` (must cover every key). Components get `{ t, fmt, formatDate, lang, setLang }` from `useI18n()` (`setLang` persists to `breakbar-language`; `LanguageSwitcher` in the header uses it); `<I18nProvider>` (wrapped in `App.tsx`) picks the language via `detectLanguage()`: localStorage `breakbar-language` → `navigator.languages` → English. Placeholders are `{name}`; use `<Trans text slots>` when a translation embeds links/markup, and separate `.one`/`.other` keys for plurals. Data in `constants.ts` stays language-neutral (no labels); `lib/gw2Api.ts` takes a `t` for its status log. Game item/title names intentionally stay English in both languages. New text must go into both message files.
+
 ## SEO / prerendering
 
 `index.html` holds the SEO tags (title, description, canonical, Open Graph, JSON-LD) with a `%SITE_URL%` placeholder; `vite.config.ts` (`seoPlugin`) fills it from `SITE_URL` (default `https://fractal.breakbar.cc`) and emits `robots.txt` + `sitemap.xml`. After the client build, `src/entry-server.tsx` is built as SSR bundle and `scripts/prerender.mjs` injects `renderToString(<App />)` at `<!--app-html-->` in `dist/index.html`. The client uses `createRoot` (not hydrate), so the server markup is simply replaced. Anything rendered must stay safe without `window` (the hooks already catch it).
