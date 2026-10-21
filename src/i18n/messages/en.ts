@@ -24,6 +24,16 @@ export const en = {
   'unit.ifm': 'IFM',
   'unit.page': 'Page',
 
+  'meta.privacy.title': 'Privacy Policy – Fractal God Calculator',
+  'meta.privacy.description':
+    'How the Fractal God Calculator handles your data: hosting at Vercel, local storage and a language cookie. No analytics, no ads.',
+
+  'siteFooter.label': 'Site links',
+  'siteFooter.home': 'Back to breakbar.cc',
+  'siteFooter.imprint': 'Imprint',
+  'siteFooter.privacy': 'Privacy policy',
+  'privacy.back': 'Back to the calculator',
+
   'language.label': 'Language',
 
   'header.eyebrow': 'Fractals of the Mists',

@@ -23,6 +23,16 @@ export const de: Record<MessageKey, string> = {
   'unit.ifm': 'IFM',
   'unit.page': 'Seite',
 
+  'meta.privacy.title': 'Datenschutzerklärung – Fractal God Rechner',
+  'meta.privacy.description':
+    'So geht der Fractal God Rechner mit deinen Daten um: Hosting bei Vercel, lokaler Speicher und ein Sprach-Cookie. Keine Analyse, keine Werbung.',
+
+  'siteFooter.label': 'Seitenlinks',
+  'siteFooter.home': 'Zurück zu breakbar.cc',
+  'siteFooter.imprint': 'Impressum',
+  'siteFooter.privacy': 'Datenschutz',
+  'privacy.back': 'Zurück zum Rechner',
+
   'language.label': 'Sprache',
 
   'header.eyebrow': 'Fraktale der Nebel',
