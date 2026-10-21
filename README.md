@@ -12,6 +12,7 @@ Rein clientseitig, kein Backend — die App läuft komplett im Browser.
 - [Verfügbare Scripts](#verfügbare-scripts)
 - [Build](#build)
 - [Sprachen (i18n)](#sprachen-i18n)
+- [Footer, Impressum und Datenschutz](#footer-impressum-und-datenschutz)
 - [SEO](#seo)
 - [Deploy to Vercel](#deploy-to-vercel)
 - [Hinweise zur GW2-API](#hinweise-zur-gw2-api)
@@ -71,9 +72,16 @@ Die Oberfläche gibt es auf Englisch und Deutsch. Die Sprache wird in dieser Rei
 - Der Cookie `breakbar-language` gilt auf `*.breakbar.cc` domainweit (`Domain=breakbar.cc`, `Path=/`, ein Jahr, `SameSite=Lax`, auf HTTPS zusätzlich `Secure`) und darf von jeder Subdomain gesetzt werden. Auf `localhost` oder anderen Hosts ist er ein normaler Host-Cookie.
 - Cookies lösen kein Änderungs-Event aus: Wurde die Sprache in einem anderen Tab oder auf einer anderen Subdomain geändert, übernimmt die Seite das, sobald der Tab wieder den Fokus bekommt.
 
+## Footer, Impressum und Datenschutz
+
+- Unter jeder Seite steht eine Link-Leiste: zurück zu `breakbar.cc`, Impressum und Datenschutz (`SiteFooter`).
+- Das Impressum liegt auf der Hauptdomain. Die URLs stehen in `src/data/links.ts`.
+- Die Datenschutzerklärung (`src/content/privacy.tsx`, Englisch und Deutsch) beschreibt Hosting bei Vercel, `localStorage`, das Sprach-Cookie, Google Fonts und die optionale GW2-API. Ändern sich die Speicherung oder externe Aufrufe der Seite (neue `localStorage`-Schlüssel, Analytics, Schriftarten …), muss der Text angepasst werden.
+- Die Texte sind eine Vorlage und keine Rechtsberatung.
+
 ## SEO
 
-- **Eine URL pro Sprache:** Englisch liegt unter `/`, Deutsch unter `/de/`. Jede Seite wird beim Build fertig vorgerendert, damit Crawler Inhalt und Head-Tags ohne JavaScript sehen. Im Browser ersetzt `createRoot` den Inhalt danach.
+- **Eine URL pro Seite und Sprache:** Rechner `/` (en) und `/de/` (de), Datenschutz `/privacy/` (en) und `/de/datenschutz/` (de), siehe `src/pages.ts`. Jede Seite wird beim Build fertig vorgerendert, damit Crawler Inhalt und Head-Tags ohne JavaScript sehen. Im Browser ersetzt `createRoot` den Inhalt danach.
 - **Head-Tags pro Sprache:** `src/seo/head.ts` erzeugt `<title>`, Meta-Description, Canonical, `hreflang` (`en`, `de`, `x-default` → `/`), `robots`-Meta, Open Graph (inkl. `og:locale` und `og:locale:alternate`), Twitter Card und JSON-LD (`WebApplication`). `index.html` enthält dafür nur Platzhalter. Die Texte stehen in den `meta.*`-Schlüsseln der Message-Dateien.
 - **`robots.txt` und `sitemap.xml`:** werden beim Build vom `seo`-Plugin in `vite.config.ts` erzeugt. Die Sitemap listet beide Seiten mit `xhtml:link`-Alternativen.
 - **Hosting:** Der Server muss `/de/` als `de/index.html` ausliefern (bei statischem Hosting wie Vercel der Standard).
