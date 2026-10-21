@@ -7,6 +7,8 @@ import {
   parseLanguage,
 } from './language'
 import type { Language } from './language'
+import { pageFromPath } from '../pages'
+import type { PageId } from '../pages'
 
 function readCookie(name: string): string | undefined {
   for (const part of document.cookie.split(';')) {
@@ -67,4 +69,10 @@ export function detectPreferredLanguage(): Language {
 export function detectLanguage(): Language {
   if (typeof window === 'undefined') return FALLBACK_LANGUAGE
   return languageFromPath(window.location.pathname) ?? detectPreferredLanguage()
+}
+
+/** The page behind the current URL; the calculator when there is no window (prerendering passes the page itself). */
+export function detectPage(): PageId {
+  if (typeof window === 'undefined') return 'home'
+  return pageFromPath(window.location.pathname)
 }

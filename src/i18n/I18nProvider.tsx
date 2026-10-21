@@ -4,7 +4,10 @@ import { fmt, formatTargetDate } from '../lib/format'
 import { I18nContext } from './context'
 import type { I18n } from './context'
 import { detectLanguage, detectPreferredLanguage, persistLanguage, readCookieLanguage } from './detect'
-import { INTL_LOCALES, LANGUAGE_PATHS, OG_LOCALES, SUPPORTED_LANGUAGES } from './language'
+import { pagePath } from '../pages'
+import type { PageId } from '../pages'
+import { pageMeta } from '../seo/head'
+import { INTL_LOCALES, OG_LOCALES, SUPPORTED_LANGUAGES } from './language'
 import type { Language } from './language'
 import { createTranslate } from './translate'
 import type { Translate } from './translate'
@@ -23,26 +26,27 @@ function setUrlPath(selector: string, attribute: 'href' | 'content', path: strin
 }
 
 /** Keeps <html lang>, the SEO tags and the address bar in line with the language shown. */
-function syncDocument(lang: Language, t: Translate) {
-  const path = LANGUAGE_PATHS[lang]
+function syncDocument(lang: Language, t: Translate, page: PageId) {
+  const path = pagePath(page, lang)
+  const meta = pageMeta(t, page)
   document.documentElement.lang = lang
-  document.title = t('meta.title')
-  setContent('meta[name="description"]', t('meta.description'))
+  document.title = meta.title
+  setContent('meta[name="description"]', meta.description)
   setContent('meta[property="og:site_name"]', t('meta.siteName'))
-  setContent('meta[property="og:title"]', t('meta.ogTitle'))
-  setContent('meta[property="og:description"]', t('meta.ogDescription'))
+  setContent('meta[property="og:title"]', meta.ogTitle)
+  setContent('meta[property="og:description"]', meta.ogDescription)
   setContent('meta[property="og:image:alt"]', t('meta.imageAlt'))
   setContent('meta[property="og:locale"]', OG_LOCALES[lang])
   const others = SUPPORTED_LANGUAGES.filter((l) => l !== lang)
   document.head.querySelectorAll('meta[property="og:locale:alternate"]').forEach((el, i) => {
     if (others[i]) el.setAttribute('content', OG_LOCALES[others[i]])
   })
-  setContent('meta[name="twitter:title"]', t('meta.ogTitle'))
-  setContent('meta[name="twitter:description"]', t('meta.ogDescription'))
+  setContent('meta[name="twitter:title"]', meta.ogTitle)
+  setContent('meta[name="twitter:description"]', meta.ogDescription)
   setUrlPath('link[rel="canonical"]', 'href', path)
   setUrlPath('meta[property="og:url"]', 'content', path)
 
-  // Each language has its own URL: /de/ for German, / for English.
+  // Each language has its own URL per page, e.g. / and /de/ for the calculator.
   const { pathname, search, hash } = window.location
   if (pathname !== path) window.history.replaceState(window.history.state, '', path + search + hash)
 }
@@ -54,7 +58,8 @@ function syncDocument(lang: Language, t: Translate) {
 export function I18nProvider({
   children,
   initialLanguage,
-}: Readonly<{ children: ReactNode; initialLanguage?: Language }>) {
+  page,
+}: Readonly<{ children: ReactNode; initialLanguage?: Language; page: PageId }>) {
   const [lang, setLangState] = useState(() => initialLanguage ?? detectLanguage())
 
   // Follow a language change made in another tab or on another breakbar subdomain. Cookies fire no change
@@ -93,7 +98,7 @@ export function I18nProvider({
   }, [lang])
 
   const { t } = value
-  useEffect(() => syncDocument(lang, t), [lang, t])
+  useEffect(() => syncDocument(lang, t, page), [lang, t, page])
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }
